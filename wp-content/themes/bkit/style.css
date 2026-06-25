@@ -154,7 +154,7 @@ a:hover {
 
 .post-title,
 .post-title a {
-    font-family: Arial, sans-serif !important;
+    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
     color: #000000;
     font-weight: 800;
 }
@@ -176,7 +176,7 @@ input[type="submit"],
 button,
 .submit,
 #submit {
-    font-family: Arial, sans-serif !important;
+    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
     background-color: #ff0000 !important;
     color: #ffffff !important;
     font-weight: 800;

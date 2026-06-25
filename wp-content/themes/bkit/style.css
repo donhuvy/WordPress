@@ -1,0 +1,230 @@
+/*
+Theme Name: BKIT
+Theme URI: https://bkit.vn/
+Author: BKIT
+Author URI: https://bkit.vn/
+Description: BKIT Flat Design theme with custom specifications: Arial font, 18px font size, 1.5 line height, #000000 text color, #ffffff background, #ff0000 header.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: bkit
+*/
+
+/* Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif !important;
+}
+
+body {
+    font-size: 18px !important;
+    line-height: 1.5 !important;
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings - Flat bold style with correct sizes */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1.1rem; }
+
+p, li, td, th, label, input, textarea, select {
+    font-size: 18px !important;
+    line-height: 1.5 !important;
+    color: #000000 !important;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+a:hover {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+/* Header & Navigation (#ff0000 background) */
+.site-header {
+    background-color: #ff0000 !important;
+    border-bottom: 3px solid #000000;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.site-branding {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.site-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+.site-title {
+    color: #ffffff !important;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0;
+    letter-spacing: -0.5px;
+}
+
+.main-navigation ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.main-navigation a {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 6px 12px;
+    border: 2px solid transparent;
+}
+
+.main-navigation a:hover {
+    background-color: #000000;
+    color: #ffffff !important;
+    text-decoration: none;
+    border: 2px solid #000000;
+}
+
+/* Main Content Area */
+.site-main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Flat Design Cards & Articles */
+.post-card {
+    background-color: #ffffff;
+    border: 3px solid #000000;
+    box-shadow: 6px 6px 0px #000000;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.15s ease;
+}
+
+.post-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px #000000;
+}
+
+.post-title a {
+    color: #000000;
+    font-weight: 800;
+}
+
+.post-title a:hover {
+    color: #ff0000;
+    text-decoration: none;
+}
+
+.post-meta {
+    font-size: 14px !important;
+    color: #555555 !important;
+    margin-bottom: 1rem;
+}
+
+/* Flat Buttons */
+.btn-flat, 
+input[type="submit"], 
+button {
+    background-color: #ff0000 !important;
+    color: #ffffff !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0px #000000;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.btn-flat:hover,
+input[type="submit"]:hover,
+button:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 2px 2px 0px #000000;
+    transform: translate(2px, 2px);
+}
+
+/* Flat Forms */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #000000 !important;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 18px;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #ff0000 !important;
+    box-shadow: 3px 3px 0px #000000;
+}
+
+/* Footer Section */
+.site-footer {
+    border-top: 3px solid #000000;
+    background-color: #ffffff;
+    padding: 3rem 2rem;
+    margin-top: 4rem;
+}
+
+.site-footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-copyright {
+    font-size: 16px !important;
+}

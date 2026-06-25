@@ -4,44 +4,49 @@ Theme Name: BKIT
 Theme URI: https://bkit.vn/
 Author: BKIT
 Author URI: https://bkit.vn/
-Description: BKIT Flat Design theme – hỗ trợ font Tiếng Việt. Arial font, 18px, 1.5 line-height, #000000 text, #ffffff background, #ff0000 header.
-Version: 1.1
+Description: BKIT Flat Design theme – hỗ trợ font Tiếng Việt. 22px, line-height 2, #000000 text, #ffffff background, #ff0000 header.
+Version: 2.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: bkit
 */
 
-/* Vietnamese-friendly font stack:
-   Arial (primary) → Segoe UI (Windows) → Roboto (Android/Chrome)
-   → Helvetica Neue (macOS/iOS) → Tahoma (legacy Windows Vietnamese)
-   → Noto Sans (Linux/universal Unicode) → sans-serif (fallback) */
+/*
+ * FONT STRATEGY:
+ * Font-family is NOT set in CSS because WordPress/Gutenberg injects its own
+ * font-family via global-styles-inline-css, theme.json, and inline style
+ * attributes — all of which override theme CSS regardless of specificity
+ * or !important.
+ *
+ * Instead, font-family is enforced by a JavaScript MutationObserver
+ * (see functions.php → bkit_font_enforcer_script) that runs in <head>
+ * and forces the Vietnamese-friendly font stack on every element,
+ * including dynamically added ones.
+ */
 
 /* Reset & Base Styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
 }
 
 html, body {
-    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
-    font-size: 18px !important;
-    line-height: 1.5 !important;
-    color: #000000 !important;
-    background-color: #ffffff !important;
+    font-size: 22px;
+    line-height: 2;
+    color: #000000;
+    background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 }
 
-/* Headings - Flat bold style with correct sizes */
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
-    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
     font-weight: 800;
     color: #000000;
     margin-bottom: 1rem;
-    line-height: 1.2;
+    line-height: 1.4;
 }
 
 h1 { font-size: 2.5rem; }
@@ -51,13 +56,12 @@ h4 { font-size: 1.5rem; }
 h5 { font-size: 1.25rem; }
 h6 { font-size: 1.1rem; }
 
+/* Body text elements */
 p, li, td, th, label, input, textarea, select,
-span, div, blockquote, figcaption, pre, code,
-.wp-block-paragraph, .wp-block-heading, .wp-block-list {
-    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
-    font-size: 18px !important;
-    line-height: 1.5 !important;
-    color: #000000 !important;
+span, blockquote, figcaption, pre, code {
+    font-size: 22px;
+    line-height: 2;
+    color: #000000;
 }
 
 a {
@@ -73,7 +77,7 @@ a:hover {
 
 /* Header & Navigation (#ff0000 background) */
 .site-header {
-    background-color: #ff0000 !important;
+    background-color: #ff0000;
     border-bottom: 3px solid #000000;
     padding: 1rem 2rem;
     position: sticky;
@@ -102,7 +106,7 @@ a:hover {
 }
 
 .site-title {
-    color: #ffffff !important;
+    color: #ffffff;
     font-size: 1.5rem;
     font-weight: 900;
     margin-bottom: 0;
@@ -116,16 +120,16 @@ a:hover {
 }
 
 .main-navigation a {
-    color: #ffffff !important;
+    color: #ffffff;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 22px;
     padding: 6px 12px;
     border: 2px solid transparent;
 }
 
 .main-navigation a:hover {
     background-color: #000000;
-    color: #ffffff !important;
+    color: #ffffff;
     text-decoration: none;
     border: 2px solid #000000;
 }
@@ -154,7 +158,6 @@ a:hover {
 
 .post-title,
 .post-title a {
-    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
     color: #000000;
     font-weight: 800;
 }
@@ -165,24 +168,23 @@ a:hover {
 }
 
 .post-meta {
-    font-size: 14px !important;
-    color: #555555 !important;
+    font-size: 16px;
+    color: #555555;
     margin-bottom: 1rem;
 }
 
 /* Flat Buttons */
-.btn-flat, 
-input[type="submit"], 
+.btn-flat,
+input[type="submit"],
 button,
 .submit,
 #submit {
-    font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
-    background-color: #ff0000 !important;
-    color: #ffffff !important;
+    background-color: #ff0000;
+    color: #ffffff;
     font-weight: 800;
     text-transform: uppercase;
     padding: 10px 20px;
-    border: 2px solid #000000 !important;
+    border: 2px solid #000000;
     box-shadow: 4px 4px 0px #000000;
     cursor: pointer;
     transition: all 0.1s ease;
@@ -193,8 +195,8 @@ input[type="submit"]:hover,
 button:hover,
 .submit:hover,
 #submit:hover {
-    background-color: #000000 !important;
-    color: #ffffff !important;
+    background-color: #000000;
+    color: #ffffff;
     box-shadow: 2px 2px 0px #000000;
     transform: translate(2px, 2px);
 }
@@ -207,17 +209,17 @@ textarea,
 select {
     width: 100%;
     padding: 10px 14px;
-    border: 2px solid #000000 !important;
+    border: 2px solid #000000;
     background-color: #ffffff;
     color: #000000;
-    font-size: 18px;
+    font-size: 22px;
     outline: none;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #ff0000 !important;
+    border-color: #ff0000;
     box-shadow: 3px 3px 0px #000000;
 }
 
@@ -246,5 +248,5 @@ select:focus {
 }
 
 .footer-copyright {
-    font-size: 16px !important;
+    font-size: 18px;
 }

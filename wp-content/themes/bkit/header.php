@@ -6,17 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <?php wp_head(); ?>
-    <style>
-        /* Force Vietnamese-friendly font stack to override any third-party or dynamic CSS */
-        *, html, body, p, span, a, h1, h2, h3, h4, h5, h6, li, td, th, label, input, textarea, select, button, 
-        .post-title, .post-title a, .entry-title, .entry-title a,
-        .submit, #submit, input[type="submit"],
-        .wp-block-paragraph, .wp-block-heading, .wp-block-list,
-        .comment-body, .comment-content, .comment-author,
-        blockquote, figcaption, .widget, .sidebar {
-            font-family: Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif !important;
-        }
-    </style>
 </head>
 <body <?php body_class('theme-bkit'); ?>>
 <?php wp_body_open(); ?>

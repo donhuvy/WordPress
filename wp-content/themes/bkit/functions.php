@@ -42,6 +42,8 @@ add_action( 'after_setup_theme', 'bkit_setup' );
  * Enqueue scripts and styles.
  */
 function bkit_scripts() {
-    wp_enqueue_style( 'bkit-style', get_stylesheet_uri(), array(), '1.0.0' );
+    $css_file = get_stylesheet_directory() . '/style.css';
+    $version  = file_exists( $css_file ) ? filemtime( $css_file ) : '1.0.0';
+    wp_enqueue_style( 'bkit-style', get_stylesheet_uri(), array(), $version );
 }
 add_action( 'wp_enqueue_scripts', 'bkit_scripts' );

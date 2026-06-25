@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <?php wp_head(); ?>
+    <style>
+        /* Force Arial font last to override any third-party or dynamic CSS */
+        *, html, body, p, span, a, h1, h2, h3, h4, h5, h6, li, td, th, label, input, textarea, select, button, 
+        .post-title, .post-title a, .entry-title, .entry-title a,
+        .submit, #submit, input[type="submit"] {
+            font-family: Arial, sans-serif !important;
+        }
+    </style>
 </head>
 <body <?php body_class('theme-bkit'); ?>>
 <?php wp_body_open(); ?>

@@ -21,6 +21,12 @@ get_header();
                 the_content();
                 ?>
             </div>
+
+            <?php if ( has_tag() ) : ?>
+                <div class="post-tags">
+                    <?php the_tags( '', ' ', '' ); ?>
+                </div>
+            <?php endif; ?>
         </article>
         <?php
         

@@ -25,6 +25,12 @@ get_header();
                     ?>
                 </div>
 
+                <?php if ( has_tag() ) : ?>
+                    <div class="post-tags">
+                        <?php the_tags( '', ' ', '' ); ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="entry-footer" style="margin-top: 1.5rem;">
                     <a href="<?php the_permalink(); ?>" class="btn-flat">Xem thêm</a>
                 </div>

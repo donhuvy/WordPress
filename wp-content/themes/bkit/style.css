@@ -289,3 +289,10 @@ select:focus {
 .footer-copyright {
     font-size: 18px;
 }
+
+/* Comment Reply Title */
+.comment-reply-title,
+#reply-title {
+    font-weight: normal;
+}
+

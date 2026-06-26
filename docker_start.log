@@ -1,0 +1,10 @@
+﻿Docker Desktop.exe : [2026-06-26T10:07:49.840244100Z][Docker Desktop.exe] launching  C:\Program 
+Files\Docker\Docker\resources\com.docker.backend.exe
+At line:1 char:1
++ & "C:\Program Files\Docker\Docker\Docker Desktop.exe" *>&1 | Out-File ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([2026-06-26T10:...ker.backend.exe:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2026-06-26T10:07:49.846462800Z][Docker Desktop.exe.ipc] 34b2a423-docker-desktop -> \\.\pipe\dockerBackendApiServer 
+BackendAPI

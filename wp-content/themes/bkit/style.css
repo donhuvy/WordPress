@@ -235,7 +235,8 @@ button:hover,
     transform: translate(2px, 2px);
 }
 
-#submit {
+#submit,
+.btn-flat {
     font-weight: normal;
 }
 

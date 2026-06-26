@@ -235,6 +235,10 @@ button:hover,
     transform: translate(2px, 2px);
 }
 
+#submit {
+    font-weight: normal;
+}
+
 /* Flat Forms */
 input[type="text"],
 input[type="email"],

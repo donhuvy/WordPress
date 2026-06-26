@@ -89,7 +89,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1560px;
     margin: 0 auto;
 }
 
@@ -136,7 +136,7 @@ a:hover {
 
 /* Main Content Area */
 .site-main {
-    max-width: 1200px;
+    max-width: 1560px;
     margin: 2rem auto;
     padding: 0 2rem;
 }
@@ -148,6 +148,38 @@ a:hover {
     padding: 2rem;
     margin-bottom: 2rem;
     transition: all 0.15s ease;
+}
+
+.post-card.has-post-thumbnail {
+    display: flex;
+    gap: 2rem;
+}
+
+.post-card.has-post-thumbnail .post-thumbnail {
+    flex: 0 0 350px;
+}
+
+.post-card.has-post-thumbnail .post-thumbnail img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border: 3px solid #000000;
+    box-shadow: 4px 4px 0px #000000;
+    display: block;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.post-card.has-post-thumbnail .post-thumbnail a:hover img {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+}
+
+.post-card.has-post-thumbnail .post-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .post-card:hover {
@@ -271,7 +303,7 @@ select:focus {
 }
 
 .site-footer .container {
-    max-width: 1200px;
+    max-width: 1560px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -294,5 +326,17 @@ select:focus {
 .comment-reply-title,
 #reply-title {
     font-weight: normal;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+    .post-card.has-post-thumbnail {
+        flex-direction: column;
+    }
+    .post-card.has-post-thumbnail .post-thumbnail {
+        flex: 0 0 auto;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
 }
 

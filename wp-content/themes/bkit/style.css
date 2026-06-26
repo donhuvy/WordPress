@@ -155,6 +155,10 @@ a:hover {
     gap: 2rem;
 }
 
+.single .post-card.has-post-thumbnail {
+    display: block;
+}
+
 .post-card.has-post-thumbnail .post-thumbnail {
     flex: 0 0 350px;
 }

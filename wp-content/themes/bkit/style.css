@@ -156,10 +156,17 @@ a:hover {
     box-shadow: 8px 8px 0px #000000;
 }
 
-.post-title,
-.post-title a {
+.post-title {
     color: #000000;
     font-weight: 800;
+}
+
+h1.post-title {
+    font-size: 2rem;
+}
+
+.post-title a {
+    color: #000000;
 }
 
 .post-title a:hover {

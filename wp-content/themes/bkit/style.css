@@ -113,8 +113,8 @@ a:hover {
 /* Header & Navigation (#ff0000 background) */
 .site-header {
     background-color: #ff0000;
-    border-bottom: 3px solid #000000;
-    padding: 1rem 2rem;
+    border-bottom: 1px solid #000000;
+    padding: 1rem 1rem;
 }
 
 .site-header .container {
@@ -176,15 +176,15 @@ a:hover {
 /* Flat Design Cards & Articles */
 .post-card {
     background-color: #ffffff;
-    border: 3px solid #000000;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    border: 1px solid #000000;
+    padding: 1rem;
+    margin-bottom: 1rem;
     transition: all 0.15s ease;
 }
 
 .post-card.has-post-thumbnail {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .single .post-card.has-post-thumbnail {
@@ -200,15 +200,15 @@ a:hover {
     height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
-    border: 3px solid #000000;
-    box-shadow: 4px 4px 0px #000000;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 0px #000000;
     display: block;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .post-card.has-post-thumbnail .post-thumbnail a:hover img {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #000000;
+    box-shadow: 1px 1px 0px #000000;
 }
 
 .post-card.has-post-thumbnail .post-content-wrapper {
@@ -220,7 +220,7 @@ a:hover {
 
 .post-card:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px #000000;
+    box-shadow: 1px 1px 0px #000000;
 }
 
 .post-title {

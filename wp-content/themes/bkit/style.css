@@ -4,7 +4,7 @@ Theme Name: BKIT
 Theme URI: https://bkit.vn/
 Author: BKIT
 Author URI: https://bkit.vn/
-Description: BKIT Flat Design theme – hỗ trợ font Tiếng Việt. Arial, 30px, line-height 1.5, #ff0000 header, #ffffff background, #000000 text.
+Description: BKIT Flat Design theme – hỗ trợ font Tiếng Việt. Arial, 18px, line-height 1.5, #ff0000 header, #ffffff background, #000000 text.
 Version: 2.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,9 +31,10 @@ Text Domain: bkit
     padding: 0;
 }
 
-html, body {
+html,
+body {
     font-family: Arial, "Segoe UI", Roboto, sans-serif;
-    font-size: 30px;
+    font-size: 18px;
     line-height: 1.5;
     color: #000000;
     background-color: #ffffff;
@@ -43,24 +44,57 @@ html, body {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 800;
     color: #000000;
     margin-bottom: 1rem;
     line-height: 1.4;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1.1rem; }
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1.1rem;
+}
 
 /* Body text elements */
-p, li, td, th, label, input, textarea, select,
-span, blockquote, figcaption, pre, code {
-    font-size: 30px;
+p,
+li,
+td,
+th,
+label,
+input,
+textarea,
+select,
+span,
+blockquote,
+figcaption,
+pre,
+code {
+    font-size: 18px;
     line-height: 1.5;
     color: #000000;
 }
@@ -120,7 +154,7 @@ a:hover {
 .main-navigation a {
     color: #ffffff;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 18px;
     padding: 6px 12px;
     border: 2px solid transparent;
 }
@@ -208,7 +242,7 @@ h1.post-title {
 }
 
 .post-meta {
-    font-size: 32px;
+    font-size: 18px;
     color: #555555;
     margin-bottom: 1rem;
 }
@@ -285,7 +319,7 @@ select {
     border: 2px solid #000000;
     background-color: #ffffff;
     color: #000000;
-    font-size: 30px;
+    font-size: 18px;
     outline: none;
 }
 
@@ -321,7 +355,7 @@ select:focus {
 }
 
 .footer-copyright {
-    font-size: 30px;
+    font-size: 18px;
 }
 
 /* Comment Reply Title */
@@ -335,10 +369,10 @@ select:focus {
     .post-card.has-post-thumbnail {
         flex-direction: column;
     }
+
     .post-card.has-post-thumbnail .post-thumbnail {
         flex: 0 0 auto;
         width: 100%;
         margin-bottom: 1.5rem;
     }
 }
-

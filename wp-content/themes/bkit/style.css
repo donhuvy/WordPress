@@ -4,8 +4,8 @@ Theme Name: BKIT
 Theme URI: https://bkit.vn/
 Author: BKIT
 Author URI: https://bkit.vn/
-Description: BKIT Flat Design theme – hỗ trợ font Tiếng Việt. Arial, 18px, line-height 1.5, #ff0000 header, #ffffff background, #000000 text.
-Version: 2.1
+Description: BKIT Flat Design theme – hỗ trợ font Tiếng Việt. Arial, 36px, line-height 1.5, #ff0000 header, #ffffff background, #000000 text.
+Version: 2.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: bkit
@@ -33,7 +33,7 @@ Text Domain: bkit
 
 html, body {
     font-family: Arial, "Segoe UI", Roboto, sans-serif;
-    font-size: 18px;
+    font-size: 36px;
     line-height: 1.5;
     color: #000000;
     background-color: #ffffff;
@@ -60,7 +60,7 @@ h6 { font-size: 1.1rem; }
 /* Body text elements */
 p, li, td, th, label, input, textarea, select,
 span, blockquote, figcaption, pre, code {
-    font-size: 18px;
+    font-size: 36px;
     line-height: 1.5;
     color: #000000;
 }
@@ -120,7 +120,7 @@ a:hover {
 .main-navigation a {
     color: #ffffff;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 36px;
     padding: 6px 12px;
     border: 2px solid transparent;
 }
@@ -208,7 +208,7 @@ h1.post-title {
 }
 
 .post-meta {
-    font-size: 16px;
+    font-size: 32px;
     color: #555555;
     margin-bottom: 1rem;
 }
@@ -222,7 +222,7 @@ h1.post-title {
 }
 
 .post-tags a {
-    font-size: 14px;
+    font-size: 28px;
     font-weight: 700;
     color: #000000;
     background-color: #ffffff;
@@ -285,7 +285,7 @@ select {
     border: 2px solid #000000;
     background-color: #ffffff;
     color: #000000;
-    font-size: 18px;
+    font-size: 36px;
     outline: none;
 }
 
@@ -321,7 +321,7 @@ select:focus {
 }
 
 .footer-copyright {
-    font-size: 18px;
+    font-size: 36px;
 }
 
 /* Comment Reply Title */

@@ -81,21 +81,9 @@ h6 {
 }
 
 /* Body text elements */
-p,
-li,
-td,
-th,
-label,
-input,
-textarea,
-select,
-span,
-blockquote,
-figcaption,
-pre,
-code {
-    font-size: 18px;
-    line-height: 1.5;
+p, li, td, th, label, input, textarea, select, span, blockquote, figcaption, pre, code {
+    font-size: 22px;
+    line-height: 2;
     color: #000000;
 }
 
@@ -325,7 +313,7 @@ select {
     border: 1px solid #000000;
     background-color: #ffffff;
     color: #000000;
-    font-size: 18px;
+    font-size: 22px;
     outline: none;
 }
 

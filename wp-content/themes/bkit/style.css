@@ -163,7 +163,7 @@ a:hover {
     background-color: #000000;
     color: #ffffff;
     text-decoration: none;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
 }
 
 /* Main Content Area */
@@ -261,7 +261,7 @@ h1.post-title {
     color: #000000;
     background-color: #ffffff;
     padding: 6px 12px;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     box-shadow: 1px 1px 0px #000000;
     text-transform: uppercase;
     transition: all 0.1s ease;
@@ -286,7 +286,7 @@ button,
     font-weight: 800;
     text-transform: uppercase;
     padding: 10px 20px;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     box-shadow: 1px 1px 0px #000000;
     cursor: pointer;
     transition: all 0.1s ease;
@@ -316,7 +316,7 @@ textarea,
 select {
     width: 100%;
     padding: 10px 14px;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     background-color: #ffffff;
     color: #000000;
     font-size: 18px;

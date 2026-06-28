@@ -81,7 +81,19 @@ h6 {
 }
 
 /* Body text elements */
-p, li, td, th, label, input, textarea, select, span, blockquote, figcaption, pre, code {
+p,
+li,
+td,
+th,
+label,
+input,
+textarea,
+select,
+span,
+blockquote,
+figcaption,
+pre,
+code {
     font-size: 22px;
     line-height: 2;
     color: #000000;
@@ -148,10 +160,10 @@ a:hover {
 }
 
 .main-navigation a:hover {
-    background-color: #000000;
+    background-color: #b6b6b6;
     color: #ffffff;
     text-decoration: none;
-    border: 1px solid #000000;
+    border: 1px solid #b6b6b6;
 }
 
 /* Main Content Area */
@@ -164,7 +176,7 @@ a:hover {
 /* Flat Design Cards & Articles */
 .post-card {
     background-color: #ffffff;
-    border: 1px solid #000000;
+    border: 1px solid #b6b6b6;
     padding: 1rem;
     margin-bottom: 1rem;
     transition: all 0.15s ease;
@@ -188,8 +200,8 @@ a:hover {
     height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
-    border: 1px solid #000000;
-    box-shadow: 1px 1px 0px #000000;
+    border: 1px solid #b6b6b6;
+    box-shadow: 1px 1px 0px #b6b6b6;
     display: block;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -326,7 +338,7 @@ select:focus {
 
 /* Footer Section */
 .site-footer {
-    border-top: 3px solid #000000;
+    border-top: 1px solid #b6b6b6;
     background-color: #ffffff;
     padding: 3rem 2rem;
     margin-top: 4rem;

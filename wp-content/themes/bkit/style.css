@@ -280,7 +280,9 @@ h1.post-title {
 input[type="submit"],
 button,
 .submit,
-#submit {
+#submit,
+.posts-navigation .nav-links a {
+    display: inline-block;
     background-color: #ff0000;
     color: #ffffff;
     font-weight: 800;
@@ -290,21 +292,25 @@ button,
     box-shadow: 1px 1px 0px #000000;
     cursor: pointer;
     transition: all 0.1s ease;
+    text-decoration: none;
 }
 
 .btn-flat:hover,
 input[type="submit"]:hover,
 button:hover,
 .submit:hover,
-#submit:hover {
+#submit:hover,
+.posts-navigation .nav-links a:hover {
     background-color: #000000;
     color: #ffffff;
     box-shadow: 2px 2px 0px #000000;
     transform: translate(2px, 2px);
+    text-decoration: none;
 }
 
 #submit,
-.btn-flat {
+.btn-flat,
+.posts-navigation .nav-links a {
     font-weight: normal;
 }
 
@@ -375,4 +381,28 @@ select:focus {
         width: 100%;
         margin-bottom: 1.5rem;
     }
+}
+
+/* Posts Navigation */
+.posts-navigation {
+    margin: 3rem 0 2rem;
+}
+
+.posts-navigation .screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.posts-navigation .nav-links {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-start;
 }

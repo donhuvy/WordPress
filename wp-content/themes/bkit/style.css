@@ -281,7 +281,9 @@ input[type="submit"],
 button,
 .submit,
 #submit,
-.posts-navigation .nav-links a {
+.posts-navigation .nav-links a,
+.pagination .nav-links a,
+.pagination .nav-links span.current {
     display: inline-block;
     background-color: #ff0000;
     color: #ffffff;
@@ -300,7 +302,8 @@ input[type="submit"]:hover,
 button:hover,
 .submit:hover,
 #submit:hover,
-.posts-navigation .nav-links a:hover {
+.posts-navigation .nav-links a:hover,
+.pagination .nav-links a:hover {
     background-color: #000000;
     color: #ffffff;
     box-shadow: 2px 2px 0px #000000;
@@ -310,7 +313,9 @@ button:hover,
 
 #submit,
 .btn-flat,
-.posts-navigation .nav-links a {
+.posts-navigation .nav-links a,
+.pagination .nav-links a,
+.pagination .nav-links span.current {
     font-weight: normal;
 }
 
@@ -383,12 +388,14 @@ select:focus {
     }
 }
 
-/* Posts Navigation */
-.posts-navigation {
+/* Posts Navigation & Pagination */
+.posts-navigation,
+.pagination {
     margin: 3rem 0 2rem;
 }
 
-.posts-navigation .screen-reader-text {
+.posts-navigation .screen-reader-text,
+.pagination .screen-reader-text {
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
@@ -401,8 +408,27 @@ select:focus {
     word-wrap: normal !important;
 }
 
-.posts-navigation .nav-links {
+.posts-navigation .nav-links,
+.pagination .nav-links {
     display: flex;
     gap: 15px;
     justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Specific styling for current page */
+.pagination .nav-links span.current {
+    background-color: #000000;
+    color: #ffffff;
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Style for dots/ellipsis */
+.pagination .nav-links span.dots {
+    display: inline-block;
+    padding: 10px 10px;
+    font-weight: bold;
 }

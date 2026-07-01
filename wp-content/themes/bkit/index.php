@@ -48,7 +48,7 @@ get_header();
             <?php
         endwhile;
 
-        the_posts_navigation(
+        the_posts_pagination(
             array(
                 'prev_text'          => 'Trang trước',
                 'next_text'          => 'Trang sau',

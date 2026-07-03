@@ -151,6 +151,10 @@ a:hover {
     gap: 20px;
 }
 
+.main-navigation ul li {
+    position: relative;
+}
+
 .main-navigation a {
     color: #ffffff;
     font-weight: 700;
@@ -164,6 +168,47 @@ a:hover {
     color: #ffffff;
     text-decoration: none;
     border: 1px solid #b6b6b6;
+}
+
+.main-navigation ul .sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0px #000000;
+    padding: 8px 0;
+    margin: 0;
+    min-width: 220px;
+    flex-direction: column;
+    gap: 0;
+}
+
+.main-navigation ul .sub-menu li {
+    width: 100%;
+}
+
+.main-navigation ul .sub-menu a {
+    color: #000000;
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    text-align: left;
+}
+
+.main-navigation ul .sub-menu a:hover {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+}
+
+.main-navigation ul li:hover > .sub-menu {
+    display: flex;
 }
 
 /* Main Content Area */

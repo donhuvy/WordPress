@@ -9028,7 +9028,7 @@ var wp;
   }
   glo[importIdentifier] = true;
 
-  // packages/sync/node_modules/y-protocols/awareness.js
+  // node_modules/y-protocols/awareness.js
   var outdatedTimeout = 3e4;
   var Awareness = class extends Observable {
     /**
@@ -9175,6 +9175,7 @@ var wp;
     ConnectionErrorCode2["CONNECTION_EXPIRED"] = "connection-expired";
     ConnectionErrorCode2["CONNECTION_LIMIT_EXCEEDED"] = "connection-limit-exceeded";
     ConnectionErrorCode2["DOCUMENT_SIZE_LIMIT_EXCEEDED"] = "document-size-limit-exceeded";
+    ConnectionErrorCode2["PROTOCOL_MISMATCH"] = "protocol-mismatch";
     ConnectionErrorCode2["UNKNOWN_ERROR"] = "unknown-error";
     return ConnectionErrorCode2;
   })(ConnectionErrorCode || {});
@@ -9208,13 +9209,6 @@ var wp;
   function passThru(fn) {
     return ((...args2) => fn(...args2));
   }
-  function yieldToEventLoop(fn) {
-    return function(...args2) {
-      setTimeout(() => {
-        fn.apply(this, args2);
-      }, 0);
-    };
-  }
 
   // packages/sync/build-module/providers/index.mjs
   var import_hooks3 = __toESM(require_hooks(), 1);
@@ -9222,7 +9216,7 @@ var wp;
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
   var import_hooks2 = __toESM(require_hooks(), 1);
 
-  // packages/sync/node_modules/y-protocols/sync.js
+  // node_modules/y-protocols/sync.js
   var messageYjsSyncStep1 = 0;
   var messageYjsSyncStep2 = 1;
   var messageYjsUpdate = 2;
@@ -9269,17 +9263,43 @@ var wp;
   // packages/sync/build-module/providers/http-polling/config.mjs
   var import_hooks = __toESM(require_hooks(), 1);
   var DEFAULT_CLIENT_LIMIT_PER_ROOM = 3;
-  var MAX_ERROR_BACKOFF_IN_MS = 30 * 1e3;
-  var MAX_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
-  var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
+  var ERROR_RETRY_DELAYS_SOLO_MS = [
+    2e3,
+    4e3,
+    8e3,
+    12e3
+    // Solo: 26s total retry time solo before dialog
+  ];
+  var ERROR_RETRY_DELAYS_WITH_COLLABORATORS_MS = [
+    1e3,
+    2e3,
+    4e3,
+    8e3
+    // With collaborators: 15s total retry time before dialog
+  ];
+  var DISCONNECT_DIALOG_RETRY_MS = 3e4;
+  var MANUAL_RETRY_INTERVAL_MS = 15e3;
+  var MAX_ENCODED_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
+  var MAX_UPDATE_SIZE_IN_BYTES = Math.floor(MAX_ENCODED_UPDATE_SIZE_IN_BYTES / 4) * 3;
+  var MAX_ROOMS_PER_REQUEST = 50;
+  var MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES = 15 * 1024 * 1024;
+  var MIN_SYNC_REQUEST_BODY_SIZE_LIMIT_IN_BYTES = 2 * 1024 * 1024;
+  var DEFAULT_POLLING_INTERVAL_IN_MS = 4e3;
+  var DEFAULT_POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = 1e3;
+  function getFilteredPollingInterval(hookName, defaultInterval) {
+    const filteredInterval = (0, import_hooks.applyFilters)(hookName, defaultInterval);
+    if (typeof filteredInterval !== "number" || !Number.isFinite(filteredInterval) || filteredInterval <= 0) {
+      return defaultInterval;
+    }
+    return Math.min(filteredInterval, defaultInterval);
+  }
+  var POLLING_INTERVAL_IN_MS = getFilteredPollingInterval(
     "sync.pollingManager.pollingInterval",
-    4e3
-    // 4 seconds
+    DEFAULT_POLLING_INTERVAL_IN_MS
   );
-  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = (0, import_hooks.applyFilters)(
+  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = getFilteredPollingInterval(
     "sync.pollingManager.pollingIntervalWithCollaborators",
-    1e3
-    // 1 second
+    DEFAULT_POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS
   );
   var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
 
@@ -9343,6 +9363,12 @@ var wp;
       pause() {
         isPaused = true;
       },
+      peek() {
+        if (isPaused) {
+          return [];
+        }
+        return [...updates];
+      },
       restore(restoredUpdates) {
         const filtered = restoredUpdates.filter(
           (u) => u.type !== SyncUpdateType.COMPACTION
@@ -9352,42 +9378,42 @@ var wp;
         }
         updates.unshift(...filtered);
       },
+      restoreExact(restoredUpdates) {
+        if (0 === restoredUpdates.length) {
+          return;
+        }
+        updates.unshift(...restoredUpdates);
+      },
       resume() {
         isPaused = false;
       },
       size() {
         return updates.length;
+      },
+      take(count) {
+        if (isPaused || count <= 0) {
+          return [];
+        }
+        return updates.splice(0, count);
       }
     };
   }
-  async function postSyncUpdate(payload) {
-    const response = await (0, import_api_fetch.default)({
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json"
-      },
+  function postSyncUpdate(payload) {
+    return (0, import_api_fetch.default)({
       method: "POST",
-      parse: false,
-      path: SYNC_API_PATH
+      path: SYNC_API_PATH,
+      data: payload
     });
-    if (!response.ok) {
-      throw new Error(
-        `Sync update failed with status ${response.status}`
-      );
-    }
-    return await response.json();
   }
   function postSyncUpdateNonBlocking(payload) {
     if (payload.rooms.length === 0) {
       return;
     }
     (0, import_api_fetch.default)({
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
       method: "POST",
-      parse: false,
-      path: SYNC_API_PATH
+      path: SYNC_API_PATH,
+      data: payload,
+      keepalive: true
     }).catch(() => {
     });
   }
@@ -9395,9 +9421,77 @@ var wp;
     const intValue = parseInt(String(value), 10);
     return isNaN(intValue) ? defaultValue : intValue;
   }
+  function rotateWindow(items, offset, size2) {
+    if (items.length === 0) {
+      return { window: [], nextOffset: 0 };
+    }
+    const start = (offset % items.length + items.length) % items.length;
+    const wrapped = [...items.slice(start), ...items.slice(0, start)];
+    return {
+      window: wrapped.slice(0, Math.max(0, size2)),
+      nextOffset: (start + Math.max(0, size2)) % items.length
+    };
+  }
 
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
   var POLLING_MANAGER_ORIGIN = "polling-manager";
+  function isForbiddenError(error) {
+    return error?.data?.status === 403;
+  }
+  function isRequestBodyTooLargeError(error) {
+    return error?.data?.status === 413 && error?.code === "rest_sync_body_too_large";
+  }
+  function isProtocolMismatchError(error) {
+    return error?.code === "rest_sync_protocol_mismatch";
+  }
+  function handleForbiddenError(error, requestedRooms) {
+    const requestedRoomNames = new Set(
+      requestedRooms.map((room) => room.room)
+    );
+    const forbiddenRooms = Array.isArray(error.data.rooms) ? error.data.rooms.filter((room) => requestedRoomNames.has(room)) : [];
+    if (forbiddenRooms.length > 0) {
+      for (const room of forbiddenRooms) {
+        const state = roomStates.get(room);
+        if (state) {
+          state.log(
+            "Permission denied, unregistering room",
+            { error },
+            "error",
+            true
+            // force
+          );
+          unregisterRoom(room, { sendDisconnectSignal: false });
+        }
+      }
+      for (const room of requestedRooms) {
+        if (forbiddenRooms.includes(room.room)) {
+          continue;
+        }
+        if (!roomStates.has(room.room)) {
+          continue;
+        }
+        const remainingState = roomStates.get(room.room);
+        if (room.updates.length > 0) {
+          remainingState.updateQueue.restore(room.updates);
+        }
+      }
+    } else {
+      const rooms = [...roomStates.keys()];
+      for (const room of rooms) {
+        const state = roomStates.get(room);
+        if (state) {
+          state.log(
+            "Permission denied, unregistering room",
+            { error },
+            "error",
+            true
+            // force
+          );
+          unregisterRoom(room, { sendDisconnectSignal: false });
+        }
+      }
+    }
+  }
   var roomStates = /* @__PURE__ */ new Map();
   function createDeprecatedCompactionUpdate(updates) {
     const mergeable = updates.filter(
@@ -9530,13 +9624,17 @@ var wp;
     return false;
   }
   var areListenersRegistered = false;
+  var consecutiveFailures = 0;
   var hasCheckedConnectionLimit = false;
+  var isManualRetry = false;
   var hasCollaborators = false;
   var isActiveBrowser = "visible" === document.visibilityState;
   var isPolling = false;
   var isUnloadPending = false;
   var pollInterval = POLLING_INTERVAL_IN_MS;
   var pollingTimeoutId = null;
+  var syncRequestBodySizeLimit = MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES;
+  var roomOverflowOffset = 0;
   function handleBeforeUnload() {
     isUnloadPending = true;
   }
@@ -9550,7 +9648,11 @@ var wp;
         updates: []
       })
     );
-    postSyncUpdateNonBlocking({ rooms });
+    for (let i = 0; i < rooms.length; i += MAX_ROOMS_PER_REQUEST) {
+      postSyncUpdateNonBlocking({
+        rooms: rooms.slice(i, i + MAX_ROOMS_PER_REQUEST)
+      });
+    }
   }
   function handleVisibilityChange() {
     const wasActive = isActiveBrowser;
@@ -9563,6 +9665,94 @@ var wp;
       }
     }
   }
+  function selectRoomsForRequest() {
+    const allRooms = Array.from(roomStates.values());
+    if (allRooms.length <= MAX_ROOMS_PER_REQUEST) {
+      return allRooms;
+    }
+    const primaryRoom = allRooms.find((state) => state.isPrimaryRoom);
+    const overflowRooms = allRooms.filter((state) => state !== primaryRoom);
+    const overflowSlotsPerRequest = MAX_ROOMS_PER_REQUEST - (primaryRoom ? 1 : 0);
+    const { window: overflowSlice, nextOffset } = rotateWindow(
+      overflowRooms,
+      roomOverflowOffset,
+      overflowSlotsPerRequest
+    );
+    roomOverflowOffset = nextOffset;
+    if (primaryRoom) {
+      return [primaryRoom, ...overflowSlice];
+    }
+    return overflowSlice;
+  }
+  var textEncoder = new TextEncoder();
+  function getJsonByteLength(value) {
+    return textEncoder.encode(JSON.stringify(value)).byteLength;
+  }
+  function createPayloadRoom(state, updates = []) {
+    return {
+      after: state.endCursor ?? 0,
+      awareness: state.localAwarenessState,
+      client_id: state.clientId,
+      room: state.room,
+      updates
+    };
+  }
+  function getUpdatePayloadSizeDelta(existingUpdateCount, update) {
+    const commaSize = existingUpdateCount === 0 ? 0 : 1;
+    return commaSize + getJsonByteLength(update);
+  }
+  function buildPayloadForRequest(selectedRoomStates) {
+    const payload = { rooms: [] };
+    const roomsInRequest = [];
+    for (const state of selectedRoomStates) {
+      const room = createPayloadRoom(state);
+      const candidate = { rooms: [...payload.rooms, room] };
+      if (payload.rooms.length > 0 && getJsonByteLength(candidate) > syncRequestBodySizeLimit) {
+        break;
+      }
+      payload.rooms.push(room);
+      roomsInRequest.push(state);
+    }
+    const pendingUpdates = roomsInRequest.map(
+      (state) => state.updateQueue.peek()
+    );
+    const sentUpdateCounts = roomsInRequest.map(() => 0);
+    let payloadSize = getJsonByteLength(payload);
+    let addedUpdate = true;
+    while (addedUpdate) {
+      addedUpdate = false;
+      for (let i = 0; i < roomsInRequest.length; i++) {
+        const update = pendingUpdates[i][sentUpdateCounts[i]];
+        if (!update) {
+          continue;
+        }
+        const sizeDelta = getUpdatePayloadSizeDelta(
+          sentUpdateCounts[i],
+          update
+        );
+        if (payloadSize + sizeDelta > syncRequestBodySizeLimit) {
+          continue;
+        }
+        sentUpdateCounts[i]++;
+        payloadSize += sizeDelta;
+        addedUpdate = true;
+      }
+    }
+    for (let i = 0; i < roomsInRequest.length; i++) {
+      payload.rooms[i].updates = roomsInRequest[i].updateQueue.take(
+        sentUpdateCounts[i]
+      );
+    }
+    return { payload, roomsInRequest };
+  }
+  function restoreExactUpdates(payload) {
+    for (const room of payload.rooms) {
+      if (!roomStates.has(room.room) || room.updates.length === 0) {
+        continue;
+      }
+      roomStates.get(room.room).updateQueue.restoreExact(room.updates);
+    }
+  }
   function poll() {
     isPolling = true;
     pollingTimeoutId = null;
@@ -9572,23 +9762,21 @@ var wp;
         return;
       }
       isUnloadPending = false;
-      roomStates.forEach((state) => {
+      const { payload, roomsInRequest } = buildPayloadForRequest(
+        selectRoomsForRequest()
+      );
+      roomsInRequest.forEach((state) => {
         state.onStatusChange({ status: "connecting" });
       });
-      const payload = {
-        rooms: Array.from(roomStates.entries()).map(
-          ([room, state]) => ({
-            after: state.endCursor ?? 0,
-            awareness: state.localAwarenessState,
-            client_id: state.clientId,
-            room,
-            updates: state.updateQueue.get()
-          })
-        )
-      };
       try {
         const { rooms } = await postSyncUpdate(payload);
-        roomStates.forEach((state) => {
+        consecutiveFailures = 0;
+        isManualRetry = false;
+        syncRequestBodySizeLimit = MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES;
+        roomsInRequest.forEach((state) => {
+          if (roomStates.get(state.room) !== state) {
+            return;
+          }
           state.onStatusChange({ status: "connected" });
         });
         hasCollaborators = false;
@@ -9657,37 +9845,97 @@ var wp;
           pollInterval = POLLING_INTERVAL_BACKGROUND_TAB_IN_MS;
         }
       } catch (error) {
-        pollInterval = Math.min(
-          pollInterval * 2,
-          MAX_ERROR_BACKOFF_IN_MS
-        );
-        for (const room of payload.rooms) {
-          if (!roomStates.has(room.room)) {
-            continue;
+        if (isForbiddenError(error)) {
+          handleForbiddenError(error, payload.rooms);
+          if (roomStates.size === 0) {
+            isPolling = false;
+            return;
           }
-          const state = roomStates.get(room.room);
-          if (room.updates.length > 0 && state.endCursor > 0) {
-            state.updateQueue.clear();
-            state.updateQueue.add(state.createCompactionUpdate());
-          } else if (room.updates.length > 0) {
-            state.updateQueue.restore(room.updates);
-          }
-          state.log(
-            "Error posting sync update, will retry with backoff",
-            { error, nextPoll: pollInterval },
-            "error",
-            true
-            // force
+        } else if (isRequestBodyTooLargeError(error)) {
+          syncRequestBodySizeLimit = Math.max(
+            MIN_SYNC_REQUEST_BODY_SIZE_LIMIT_IN_BYTES,
+            Math.floor(syncRequestBodySizeLimit / 2)
           );
-        }
-        if (!isUnloadPending) {
-          roomStates.forEach((state) => {
+          pollInterval = hasCollaborators ? ERROR_RETRY_DELAYS_WITH_COLLABORATORS_MS[0] : ERROR_RETRY_DELAYS_SOLO_MS[0];
+          restoreExactUpdates(payload);
+          for (const room of payload.rooms) {
+            if (!roomStates.has(room.room)) {
+              continue;
+            }
+            roomStates.get(room.room).log(
+              "Sync request body too large, retrying with smaller batches",
+              {
+                error,
+                nextPoll: pollInterval,
+                syncRequestBodySizeLimit
+              },
+              "error",
+              true
+              // force
+            );
+          }
+        } else if (isProtocolMismatchError(error)) {
+          const affectedRooms = [...roomStates.entries()];
+          for (const [, state] of affectedRooms) {
             state.onStatusChange({
               status: "disconnected",
-              canManuallyRetry: true,
-              willAutoRetryInMs: pollInterval
+              error: new ConnectionError(
+                ConnectionErrorCode.PROTOCOL_MISMATCH,
+                "Protocol mismatch between client and server"
+              )
             });
-          });
+          }
+          for (const [room] of affectedRooms) {
+            unregisterRoom(room, { sendDisconnectSignal: false });
+          }
+          isPolling = false;
+          return;
+        } else {
+          consecutiveFailures++;
+          const retrySchedule = hasCollaborators ? ERROR_RETRY_DELAYS_WITH_COLLABORATORS_MS : ERROR_RETRY_DELAYS_SOLO_MS;
+          if (consecutiveFailures <= retrySchedule.length) {
+            pollInterval = retrySchedule[consecutiveFailures - 1];
+          } else {
+            pollInterval = DISCONNECT_DIALOG_RETRY_MS;
+          }
+          if (isManualRetry) {
+            pollInterval = MANUAL_RETRY_INTERVAL_MS;
+            isManualRetry = false;
+          }
+          for (const room of payload.rooms) {
+            if (!roomStates.has(room.room)) {
+              continue;
+            }
+            const state = roomStates.get(room.room);
+            if (room.updates.length > 0 && state.endCursor > 0) {
+              state.updateQueue.clear();
+              state.updateQueue.add(state.createCompactionUpdate());
+            } else if (room.updates.length > 0) {
+              state.updateQueue.restore(room.updates);
+            }
+            state.log(
+              "Error posting sync update, will retry with backoff",
+              { error, nextPoll: pollInterval },
+              "error",
+              true
+              // force
+            );
+          }
+          if (!isUnloadPending) {
+            const backgroundRetriesFailed = consecutiveFailures > retrySchedule.length;
+            roomsInRequest.forEach((state) => {
+              if (roomStates.get(state.room) !== state) {
+                return;
+              }
+              state.onStatusChange({
+                status: "disconnected",
+                canManuallyRetry: true,
+                consecutiveFailures,
+                backgroundRetriesFailed,
+                willAutoRetryInMs: pollInterval
+              });
+            });
+          }
         }
       }
       pollingTimeoutId = setTimeout(poll, pollInterval);
@@ -9731,6 +9979,7 @@ var wp;
           )
         });
         unregisterRoom(room);
+        return;
       }
       updateQueue.add(createSyncUpdate(update, SyncUpdateType.UPDATE));
     }
@@ -9769,19 +10018,21 @@ var wp;
       poll();
     }
   }
-  function unregisterRoom(room) {
+  function unregisterRoom(room, { sendDisconnectSignal = true } = {}) {
     const state = roomStates.get(room);
     if (state) {
-      const rooms = [
-        {
-          after: 0,
-          awareness: null,
-          client_id: state.clientId,
-          room,
-          updates: []
-        }
-      ];
-      postSyncUpdateNonBlocking({ rooms });
+      if (sendDisconnectSignal) {
+        const rooms = [
+          {
+            after: 0,
+            awareness: null,
+            client_id: state.clientId,
+            room,
+            updates: []
+          }
+        ];
+        postSyncUpdateNonBlocking({ rooms });
+      }
       state.unregister();
       roomStates.delete(room);
     }
@@ -9794,10 +10045,13 @@ var wp;
       );
       areListenersRegistered = false;
       hasCheckedConnectionLimit = false;
+      consecutiveFailures = 0;
+      roomOverflowOffset = 0;
+      syncRequestBodySizeLimit = MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES;
     }
   }
   function retryNow() {
-    pollInterval = POLLING_INTERVAL_IN_MS * 2;
+    isManualRetry = true;
     if (pollingTimeoutId) {
       clearTimeout(pollingTimeoutId);
       pollingTimeoutId = null;
@@ -10139,6 +10393,7 @@ var wp;
 
   // packages/sync/build-module/undo-manager.mjs
   function createUndoManager() {
+    const undoMetaHandlers = /* @__PURE__ */ new Map();
     const yUndoManager = new YMultiDocUndoManager([], {
       // Throttle undo/redo captures after 500ms of inactivity.
       // 500 was selected from subjective local UX testing, shorter timeouts
@@ -10147,6 +10402,37 @@ var wp;
       // Ensure that we only scope the undo/redo to the current editor.
       // The yjs document's clientID is added once it's available.
       trackedOrigins: /* @__PURE__ */ new Set([LOCAL_EDITOR_ORIGIN])
+    });
+    const getUndoStackState = () => ({
+      hasRedo: yUndoManager.canRedo(),
+      hasUndo: yUndoManager.canUndo()
+    });
+    const notifyUndoStackChange = (ydoc) => {
+      undoMetaHandlers.get(ydoc)?.onUndoStackChange?.(getUndoStackState());
+    };
+    yUndoManager.on("stack-item-added", (event) => {
+      const handlers = undoMetaHandlers.get(event.ydoc);
+      if (!handlers) {
+        return;
+      }
+      handlers.addUndoMeta(event.ydoc, event.stackItem.meta);
+      notifyUndoStackChange(event.ydoc);
+    });
+    yUndoManager.on("stack-item-updated", (event) => {
+      notifyUndoStackChange(event.ydoc);
+    });
+    yUndoManager.on("stack-item-popped", (event) => {
+      const handlers = undoMetaHandlers.get(event.ydoc);
+      if (!handlers) {
+        return;
+      }
+      handlers.restoreUndoMeta(event.ydoc, event.stackItem.meta);
+      notifyUndoStackChange(event.ydoc);
+    });
+    yUndoManager.on("stack-cleared", () => {
+      undoMetaHandlers.forEach((handlers) => {
+        handlers.onUndoStackChange?.(getUndoStackState());
+      });
     });
     return {
       /**
@@ -10162,10 +10448,11 @@ var wp;
       /**
        * Add a Yjs map to the scope of the undo manager.
        *
-       * @param {Y.Map< any >} ymap                     The Yjs map to add to the scope.
-       * @param                handlers
-       * @param                handlers.addUndoMeta
-       * @param                handlers.restoreUndoMeta
+       * @param {Y.Map< any >} ymap                       The Yjs map to add to the scope.
+       * @param                handlers                   Handlers for the scoped document.
+       * @param                handlers.addUndoMeta       Handler to add metadata to undo items.
+       * @param                handlers.onUndoStackChange Handler for undo stack changes.
+       * @param                handlers.restoreUndoMeta   Handler to restore metadata from undo items.
        */
       addToScope(ymap, handlers) {
         if (ymap.doc === null) {
@@ -10173,13 +10460,10 @@ var wp;
         }
         const ydoc = ymap.doc;
         yUndoManager.addToScope(ymap);
-        const { addUndoMeta, restoreUndoMeta } = handlers;
-        yUndoManager.on("stack-item-added", (event) => {
-          addUndoMeta(ydoc, event.stackItem.meta);
-        });
-        yUndoManager.on("stack-item-popped", (event) => {
-          restoreUndoMeta(ydoc, event.stackItem.meta);
-        });
+        if (!undoMetaHandlers.has(ydoc)) {
+          ydoc.on("destroy", () => undoMetaHandlers.delete(ydoc));
+        }
+        undoMetaHandlers.set(ydoc, handlers);
       },
       /**
        * Undo the last recorded changes.
@@ -10265,7 +10549,7 @@ var wp;
       applyUpdateV2(ydoc, yupdate);
       ydoc.clientID = pseudoRandomID();
       return ydoc;
-    } catch (e) {
+    } catch {
       return null;
     }
   }
@@ -10299,6 +10583,10 @@ var wp;
         log("loadEntity", "already loaded", entityId);
         return;
       }
+      if (false === syncConfig.shouldSync?.(objectType, objectId)) {
+        log("loadEntity", "shouldSync false, skipping", entityId);
+        return;
+      }
       log("loadEntity", "loading", entityId);
       handlers = {
         addUndoMeta: debugWrap(handlers.addUndoMeta),
@@ -10307,18 +10595,24 @@ var wp;
         onStatusChange: debugWrap(handlers.onStatusChange),
         persistCRDTDoc: debugWrap(handlers.persistCRDTDoc),
         refetchRecord: debugWrap(handlers.refetchRecord),
-        restoreUndoMeta: debugWrap(handlers.restoreUndoMeta)
+        restoreUndoMeta: debugWrap(handlers.restoreUndoMeta),
+        onUndoStackChange: handlers.onUndoStackChange ? debugWrap(handlers.onUndoStackChange) : void 0
       };
       const ydoc = createYjsDoc({ objectType });
       const recordMap = ydoc.getMap(CRDT_RECORD_MAP_KEY);
       const stateMap = ydoc.getMap(CRDT_STATE_MAP_KEY);
       const now = Date.now();
+      let hasObserversAttached = false;
+      let isEntityUnloaded = false;
       const unload = () => {
         log("loadEntity", "unloading", entityId);
-        providerResults.forEach((result) => result.destroy());
+        isEntityUnloaded = true;
+        providerResults?.forEach((result) => result.destroy());
         handlers.onStatusChange(null);
-        recordMap.unobserveDeep(onRecordUpdate);
-        stateMap.unobserve(onStateMapUpdate);
+        if (hasObserversAttached) {
+          recordMap.unobserveDeep(onRecordUpdate);
+          stateMap.unobserve(onStateMapUpdate);
+        }
         ydoc.destroy();
         entityStates.delete(entityId);
       };
@@ -10336,8 +10630,8 @@ var wp;
         event.keysChanged.forEach((key) => {
           switch (key) {
             case CRDT_STATE_MAP_SAVED_AT_KEY:
-              const newValue = stateMap.get(CRDT_STATE_MAP_SAVED_AT_KEY);
-              if ("number" === typeof newValue && newValue > now) {
+              const savedAt = stateMap.get(CRDT_STATE_MAP_SAVED_AT_KEY);
+              if ("number" === typeof savedAt && savedAt > now) {
                 log("loadEntity", "refetching record", entityId);
                 void handlers.refetchRecord().catch(() => {
                 });
@@ -10349,11 +10643,13 @@ var wp;
       if (!undoManager) {
         undoManager = createUndoManager();
       }
-      const { addUndoMeta, restoreUndoMeta } = handlers;
+      const { addUndoMeta, onUndoStackChange, restoreUndoMeta } = handlers;
       undoManager.addToScope(recordMap, {
         addUndoMeta,
-        restoreUndoMeta
+        restoreUndoMeta,
+        onUndoStackChange
       });
+      let providerResults;
       const entityState = {
         awareness,
         handlers,
@@ -10365,7 +10661,7 @@ var wp;
       };
       entityStates.set(entityId, entityState);
       log("loadEntity", "connecting", entityId);
-      const providerResults = await Promise.all(
+      providerResults = await Promise.all(
         providerCreators2.map(async (create7) => {
           const provider = await create7({
             objectType,
@@ -10377,10 +10673,16 @@ var wp;
           return provider;
         })
       );
-      recordMap.observeDeep(onRecordUpdate);
-      stateMap.observe(onStateMapUpdate);
+      if (isEntityUnloaded) {
+        log("loadEntity", "unloaded during connect, aborting", entityId);
+        providerResults.forEach((result) => result.destroy());
+        return;
+      }
       initializeYjsDoc(ydoc);
       internal.applyPersistedCrdtDoc(objectType, objectId, record);
+      recordMap.observeDeep(onRecordUpdate);
+      stateMap.observe(onStateMapUpdate);
+      hasObserversAttached = true;
     }
     async function loadCollection(syncConfig, objectType, handlers) {
       const providerCreators2 = getProviderCreators();
@@ -10393,15 +10695,24 @@ var wp;
         log("loadCollection", "already loaded", entityId);
         return;
       }
+      if (false === syncConfig.shouldSync?.(objectType, null)) {
+        log("loadCollection", "shouldSync false, skipping", entityId);
+        return;
+      }
       log("loadCollection", "loading", entityId);
       const ydoc = createYjsDoc({ collection: true, objectType });
       const stateMap = ydoc.getMap(CRDT_STATE_MAP_KEY);
       const now = Date.now();
+      let hasObserversAttached = false;
+      let isCollectionUnloaded = false;
       const unload = () => {
         log("loadCollection", "unloading", entityId);
-        providerResults.forEach((result) => result.destroy());
+        isCollectionUnloaded = true;
+        providerResults?.forEach((result) => result.destroy());
         handlers.onStatusChange(null);
-        stateMap.unobserve(onStateMapUpdate);
+        if (hasObserversAttached) {
+          stateMap.unobserve(onStateMapUpdate);
+        }
         ydoc.destroy();
         collectionStates.delete(objectType);
       };
@@ -10422,6 +10733,7 @@ var wp;
         });
       };
       const awareness = syncConfig.createAwareness?.(ydoc);
+      let providerResults;
       const collectionState = {
         awareness,
         handlers,
@@ -10431,7 +10743,7 @@ var wp;
       };
       collectionStates.set(objectType, collectionState);
       log("loadCollection", "connecting", entityId);
-      const providerResults = await Promise.all(
+      providerResults = await Promise.all(
         providerCreators2.map(async (create7) => {
           const provider = await create7({
             awareness,
@@ -10443,14 +10755,37 @@ var wp;
           return provider;
         })
       );
+      if (isCollectionUnloaded) {
+        log(
+          "loadCollection",
+          "unloaded during connect, aborting",
+          entityId
+        );
+        providerResults.forEach((result) => result.destroy());
+        return;
+      }
       stateMap.observe(onStateMapUpdate);
+      hasObserversAttached = true;
       initializeYjsDoc(ydoc);
     }
     function unloadEntity(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
       log("unloadEntity", "unloading", entityId);
       entityStates.get(entityId)?.unload();
-      updateCRDTDoc(objectType, null, {}, origin, { isSave: true });
+      updateCRDTDoc(objectType, null, {}, origin, {
+        isSave: true
+      });
+    }
+    function unloadAll() {
+      log("unloadAll", "unloading all entities", "all");
+      for (const [, entityState] of [...entityStates]) {
+        entityState.unload();
+      }
+      entityStates.clear();
+      for (const [, collectionState] of [...collectionStates]) {
+        collectionState.unload();
+      }
+      collectionStates.clear();
     }
     function getAwareness(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
@@ -10556,13 +10891,12 @@ var wp;
       });
       handlers.editRecord(changes);
     }
-    async function createPersistedCRDTDoc(objectType, objectId) {
+    function createPersistedCRDTDoc(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
       const entityState = entityStates.get(entityId);
       if (!entityState?.ydoc) {
         return null;
       }
-      await new Promise((resolve) => setTimeout(resolve, 0));
       return serializeCrdtDoc(entityState.ydoc);
     }
     const internal = {
@@ -10579,7 +10913,8 @@ var wp;
         return undoManager;
       },
       unload: debugWrap(unloadEntity),
-      update: debugWrap(yieldToEventLoop(updateCRDTDoc))
+      unloadAll: debugWrap(unloadAll),
+      update: debugWrap(updateCRDTDoc)
     };
   }
 
@@ -11473,6 +11808,12 @@ var wp;
     /**
      * Given a Delta and a cursor position, do a diff and attempt to adjust
      * the diff to place insertions or deletions at the cursor position.
+     *
+     * @todo There are at least a few known cases where this produces a corrupted
+     *       diff. When this is fixed, it should not be necessary to verify that the
+     *       transformed diff applies cleanly.
+     *
+     * @see import("@wordpress/core-data/src/utils/crdt-blocks").mergeRichTextUpdate()
      *
      * @param other             - The other Delta to diff against.
      * @param cursorAfterChange - The cursor position index after the change.

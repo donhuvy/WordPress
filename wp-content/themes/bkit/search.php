@@ -11,7 +11,7 @@ get_header();
         <h1 class="page-title">
             <?php
             /* translators: %s: search query. */
-            printf( esc_html__( 'Kết quả tìm kiếm cho: %s', 'bkit' ), '<span>' . get_search_query() . '</span>' );
+            printf( '<span style="font-size: 50%;">' . esc_html__( 'Kết quả tìm kiếm cho: %s', 'bkit' ) . '</span>', '<span style="font-size: 50%;">' . get_search_query() . '</span>' );
             ?>
         </h1>
     </header>

@@ -432,3 +432,120 @@ select:focus {
     padding: 10px 10px;
     font-weight: bold;
 }
+
+/* Global Screen Reader Class (Visual Hidden but Accessible) */
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+/* General Search Form Styling */
+.search-form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.search-form label {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+.search-form input[type="search"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #000000;
+    border-right: none;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 18px;
+    outline: none;
+    height: 44px;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+
+.search-form input[type="search"]:focus {
+    border-color: #ff0000;
+    box-shadow: 1px 1px 0px #000000;
+}
+
+.search-form .search-submit {
+    height: 44px;
+    padding: 0 20px;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    background-color: #ff0000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    border-radius: 0;
+}
+
+.search-form .search-submit:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Header Search Customization */
+.header-search {
+    margin-left: 20px;
+    flex-shrink: 0;
+}
+
+.header-search .search-form {
+    max-width: 300px;
+}
+
+.header-search .search-form input[type="search"] {
+    height: 38px;
+    padding: 6px 12px;
+    font-size: 16px;
+}
+
+.header-search .search-form .search-submit {
+    height: 38px;
+    padding: 0 14px;
+    font-size: 14px;
+    background-color: #000000;
+}
+
+.header-search .search-form .search-submit:hover {
+    background-color: #333333;
+}
+
+/* Responsive Search Header Styles */
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .main-navigation ul {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .header-search {
+        margin-left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-search .search-form {
+        width: 100%;
+        max-width: 400px;
+    }
+}

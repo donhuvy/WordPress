@@ -278,7 +278,21 @@ a:hover {
 }
 
 h1.post-title {
-    font-size: 1rem;
+    font-size: 1.5rem;
+}
+
+.entry-content h1 {
+    font-size: 1.5rem;
+}
+
+.entry-content ul,
+.entry-content ol {
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.entry-content li {
+    margin-bottom: 0.5rem;
 }
 
 .post-title a {

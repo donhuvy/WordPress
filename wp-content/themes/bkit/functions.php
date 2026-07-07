@@ -123,10 +123,13 @@ function bkit_font_enforcer_script() {
     <script>
     (function() {
         var FONT = 'Arial, "Segoe UI", Roboto, "Helvetica Neue", Tahoma, "Noto Sans", sans-serif';
+        var normalizedTarget = FONT.replace(/['"\s]/g, '').toLowerCase();
 
         // Force font on a single element
         function forceFont(el) {
             if (el.nodeType !== 1) return; // Element nodes only
+            var currentFont = el.style.fontFamily || '';
+            if (currentFont.replace(/['"\s]/g, '').toLowerCase() === normalizedTarget) return;
             el.style.setProperty('font-family', FONT, 'important');
         }
 
@@ -142,8 +145,11 @@ function bkit_font_enforcer_script() {
         // Process everything currently in the DOM
         forceFontTree(document.documentElement);
 
-        // Watch for ANY future DOM changes (Gutenberg lazy blocks, AJAX, plugins)
+        // Watch for ANY future DOM changes
         var observer = new MutationObserver(function(mutations) {
+            // Tạm thời ngắt kết nối để tránh bắt các thay đổi do chính script này tạo ra
+            observer.disconnect();
+
             for (var i = 0; i < mutations.length; i++) {
                 var m = mutations[i];
                 // New nodes added
@@ -155,11 +161,19 @@ function bkit_font_enforcer_script() {
                         }
                     }
                 }
-                // Attribute changed (e.g., WordPress/plugin sets inline style)
+                // Attribute changed (style hoặc class)
                 if (m.type === 'attributes' && m.attributeName === 'style') {
                     forceFont(m.target);
                 }
             }
+
+            // Kết nối lại sau khi xử lý xong các thay đổi
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
         });
 
         observer.observe(document.documentElement, {
@@ -171,7 +185,14 @@ function bkit_font_enforcer_script() {
 
         // Safety net: re-run after full page load (catches deferred scripts)
         window.addEventListener('load', function() {
+            observer.disconnect();
             forceFontTree(document.documentElement);
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
         });
     })();
     </script>

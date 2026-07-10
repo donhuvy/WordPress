@@ -310,6 +310,11 @@ h1.post-title {
     margin-bottom: 1rem;
 }
 
+.post-meta .post-date {
+    font-style: italic;
+    color: #34a203;
+}
+
 .post-tags {
     display: flex;
     flex-wrap: wrap;

@@ -36,7 +36,7 @@ get_header();
                             <a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
                         </h2>
                         <div class="post-meta">
-                            <span class="posted-on">Đăng ngày: <?php echo get_the_date('d/m/Y H:i:s'); ?> | Cập nhật: <?php echo get_the_modified_date('d/m/Y H:i:s'); ?></span>
+                            <span class="posted-on">Đăng ngày: <span class="post-date"><?php echo get_the_date('d/m/Y H:i:s'); ?></span> | Cập nhật: <span class="post-date"><?php echo get_the_modified_date('d/m/Y H:i:s'); ?></span></span>
                             <span class="author-meta"> | <?php the_author(); ?></span>
                         </div>
                     </header>

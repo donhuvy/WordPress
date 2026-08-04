@@ -157,6 +157,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/theme
+  var require_theme = __commonJS({
+    "package-external:@wordpress/theme"(exports, module) {
+      module.exports = window.wp.theme;
+    }
+  });
+
   // package-external:@wordpress/private-apis
   var require_private_apis = __commonJS({
     "package-external:@wordpress/private-apis"(exports, module) {
@@ -358,67 +365,67 @@ var wp;
   // packages/icons/build-module/library/block-default.mjs
   var import_primitives = __toESM(require_primitives(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var block_default_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M19 8h-1V6h-5v2h-2V6H6v2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm.5 10c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-8c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v8z" }) });
+  var block_default_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M19 8h-1V6h-5v2h-2V6H6v2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm.5 10c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-8c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v8z" }) });
 
   // packages/icons/build-module/library/check.mjs
   var import_primitives2 = __toESM(require_primitives(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var check_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M16.5 7.5 10 13.9l-2.5-2.4-1 1 3.5 3.6 7.5-7.6z" }) });
+  var check_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M16.5 7.5 10 13.9l-2.5-2.4-1 1 3.5 3.6 7.5-7.6z" }) });
 
   // packages/icons/build-module/library/close-small.mjs
   var import_primitives3 = __toESM(require_primitives(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var close_small_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z" }) });
+  var close_small_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z" }) });
 
   // packages/icons/build-module/library/drawer-left.mjs
   var import_primitives4 = __toESM(require_primitives(), 1);
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var drawer_left_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8.5 18.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h2.5v13zm10-.5c0 .3-.2.5-.5.5h-8v-13h8c.3 0 .5.2.5.5v12z" }) });
+  var drawer_left_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8.5 18.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h2.5v13zm10-.5c0 .3-.2.5-.5.5h-8v-13h8c.3 0 .5.2.5.5v12z" }) });
 
   // packages/icons/build-module/library/drawer-right.mjs
   var import_primitives5 = __toESM(require_primitives(), 1);
   var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var drawer_right_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-4 14.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h8v13zm4.5-.5c0 .3-.2.5-.5.5h-2.5v-13H18c.3 0 .5.2.5.5v12z" }) });
+  var drawer_right_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-4 14.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h8v13zm4.5-.5c0 .3-.2.5-.5.5h-2.5v-13H18c.3 0 .5.2.5.5v12z" }) });
 
   // packages/icons/build-module/library/external.mjs
   var import_primitives6 = __toESM(require_primitives(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var external_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z" }) });
+  var external_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z" }) });
 
   // packages/icons/build-module/library/list-view.mjs
   var import_primitives7 = __toESM(require_primitives(), 1);
   var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-  var list_view_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { d: "M3 6h11v1.5H3V6Zm3.5 5.5h11V13h-11v-1.5ZM21 17H10v1.5h11V17Z" }) });
+  var list_view_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { d: "M3 6h11v1.5H3V6Zm3.5 5.5h11V13h-11v-1.5ZM21 17H10v1.5h11V17Z" }) });
 
   // packages/icons/build-module/library/more-vertical.mjs
   var import_primitives8 = __toESM(require_primitives(), 1);
   var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-  var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
+  var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
 
   // packages/icons/build-module/library/plus.mjs
   var import_primitives9 = __toESM(require_primitives(), 1);
   var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
-  var plus_default = /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.Path, { d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z" }) });
+  var plus_default = /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.Path, { d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z" }) });
 
   // packages/icons/build-module/library/redo.mjs
   var import_primitives10 = __toESM(require_primitives(), 1);
   var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
-  var redo_default = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.Path, { d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z" }) });
+  var redo_default = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.Path, { d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z" }) });
 
   // packages/icons/build-module/library/star-empty.mjs
   var import_primitives11 = __toESM(require_primitives(), 1);
   var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
-  var star_empty_default = /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_primitives11.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_primitives11.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z" }) });
+  var star_empty_default = /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_primitives11.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_primitives11.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z" }) });
 
   // packages/icons/build-module/library/star-filled.mjs
   var import_primitives12 = __toESM(require_primitives(), 1);
   var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
-  var star_filled_default = /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z" }) });
+  var star_filled_default = /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z" }) });
 
   // packages/icons/build-module/library/undo.mjs
   var import_primitives13 = __toESM(require_primitives(), 1);
   var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
-  var undo_default = /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives13.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives13.Path, { d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z" }) });
+  var undo_default = /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives13.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives13.Path, { d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z" }) });
 
   // packages/interface/build-module/components/complementary-area/index.mjs
   var import_element2 = __toESM(require_element(), 1);
@@ -1155,7 +1162,7 @@ var wp;
   ComplementaryArea.Slot = ComplementaryAreaSlot;
   var complementary_area_default = ComplementaryArea;
 
-  // node_modules/@base-ui/utils/esm/useRefWithInit.js
+  // node_modules/@base-ui/utils/useRefWithInit.mjs
   var React = __toESM(require_react(), 1);
   var UNINITIALIZED = {};
   function useRefWithInit(init, initArg) {
@@ -1166,7 +1173,7 @@ var wp;
     return ref;
   }
 
-  // node_modules/@base-ui/utils/esm/warn.js
+  // node_modules/@base-ui/utils/warn.mjs
   var set;
   if (true) {
     set = /* @__PURE__ */ new Set();
@@ -1181,10 +1188,10 @@ var wp;
     }
   }
 
-  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  // node_modules/@base-ui/react/internals/useRenderElement.mjs
   var React4 = __toESM(require_react(), 1);
 
-  // node_modules/@base-ui/utils/esm/useMergedRefs.js
+  // node_modules/@base-ui/utils/useMergedRefs.mjs
   function useMergedRefs(a, b, c, d) {
     const forkRef = useRefWithInit(createForkRef).current;
     if (didChange(forkRef, a, b, c, d)) {
@@ -1273,17 +1280,17 @@ var wp;
     };
   }
 
-  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  // node_modules/@base-ui/utils/getReactElementRef.mjs
   var React3 = __toESM(require_react(), 1);
 
-  // node_modules/@base-ui/utils/esm/reactVersion.js
+  // node_modules/@base-ui/utils/reactVersion.mjs
   var React2 = __toESM(require_react(), 1);
   var majorVersion = parseInt(React2.version, 10);
   function isReactVersionAtLeast(reactVersionToCheck) {
     return majorVersion >= reactVersionToCheck;
   }
 
-  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  // node_modules/@base-ui/utils/getReactElementRef.mjs
   function getReactElementRef(element) {
     if (!/* @__PURE__ */ React3.isValidElement(element)) {
       return null;
@@ -1293,7 +1300,7 @@ var wp;
     return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
   }
 
-  // node_modules/@base-ui/utils/esm/mergeObjects.js
+  // node_modules/@base-ui/utils/mergeObjects.mjs
   function mergeObjects(a, b) {
     if (a && !b) {
       return a;
@@ -1310,11 +1317,11 @@ var wp;
     return void 0;
   }
 
-  // node_modules/@base-ui/utils/esm/empty.js
+  // node_modules/@base-ui/utils/empty.mjs
   var EMPTY_ARRAY = Object.freeze([]);
   var EMPTY_OBJECT = Object.freeze({});
 
-  // node_modules/@base-ui/react/esm/internals/getStateAttributesProps.js
+  // node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
   function getStateAttributesProps(state, customMapping) {
     const props = {};
     for (const key in state) {
@@ -1335,17 +1342,17 @@ var wp;
     return props;
   }
 
-  // node_modules/@base-ui/react/esm/utils/resolveClassName.js
+  // node_modules/@base-ui/react/utils/resolveClassName.mjs
   function resolveClassName(className, state) {
     return typeof className === "function" ? className(state) : className;
   }
 
-  // node_modules/@base-ui/react/esm/utils/resolveStyle.js
+  // node_modules/@base-ui/react/utils/resolveStyle.mjs
   function resolveStyle(style, state) {
     return typeof style === "function" ? style(state) : style;
   }
 
-  // node_modules/@base-ui/react/esm/merge-props/mergeProps.js
+  // node_modules/@base-ui/react/merge-props/mergeProps.mjs
   var EMPTY_PROPS = {};
   function mergeProps(a, b, c, d, e) {
     if (!c && !d && !e && !a) {
@@ -1500,7 +1507,7 @@ var wp;
     return event != null && typeof event === "object" && "nativeEvent" in event;
   }
 
-  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  // node_modules/@base-ui/react/internals/useRenderElement.mjs
   var import_react = __toESM(require_react(), 1);
   function useRenderElement(element, componentProps, params = {}) {
     const renderProp = componentProps.render;
@@ -1618,7 +1625,7 @@ var wp;
     return /* @__PURE__ */ React4.createElement(Tag, props);
   }
 
-  // node_modules/@base-ui/react/esm/use-render/useRender.js
+  // node_modules/@base-ui/react/use-render/useRender.mjs
   function useRender(params) {
     return useRenderElement(params.defaultTagName ?? "div", params, params);
   }
@@ -2908,7 +2915,7 @@ var wp;
   var import_data13 = __toESM(require_data(), 1);
   var import_core_data8 = __toESM(require_core_data(), 1);
   var import_element11 = __toESM(require_element(), 1);
-  var import_block_editor8 = __toESM(require_block_editor(), 1);
+  var import_block_editor9 = __toESM(require_block_editor(), 1);
   var import_patterns = __toESM(require_patterns(), 1);
   var import_preferences4 = __toESM(require_preferences(), 1);
   var import_block_library = __toESM(require_block_library(), 1);
@@ -2920,14 +2927,22 @@ var wp;
   var import_data11 = __toESM(require_data(), 1);
   var import_i18n6 = __toESM(require_i18n(), 1);
   var import_core_data6 = __toESM(require_core_data(), 1);
+  var import_block_editor7 = __toESM(require_block_editor(), 1);
+  var { usesNativeUndo } = unlock(import_block_editor7.privateApis);
   function KeyboardShortcuts() {
     const { redo, undo } = (0, import_data11.useDispatch)(import_core_data6.store);
     const { saveEditedWidgetAreas: saveEditedWidgetAreas2 } = (0, import_data11.useDispatch)(store2);
     (0, import_keyboard_shortcuts.useShortcut)("core/edit-widgets/undo", (event) => {
+      if (usesNativeUndo(event)) {
+        return;
+      }
       undo();
       event.preventDefault();
     });
     (0, import_keyboard_shortcuts.useShortcut)("core/edit-widgets/redo", (event) => {
+      if (usesNativeUndo(event)) {
+        return;
+      }
       redo();
       event.preventDefault();
     });
@@ -3028,10 +3043,10 @@ var wp;
 
   // packages/edit-widgets/build-module/hooks/use-last-selected-widget-area.mjs
   var import_data12 = __toESM(require_data(), 1);
-  var import_block_editor7 = __toESM(require_block_editor(), 1);
+  var import_block_editor8 = __toESM(require_block_editor(), 1);
   var import_core_data7 = __toESM(require_core_data(), 1);
   var useLastSelectedWidgetArea = () => (0, import_data12.useSelect)((select) => {
-    const { getBlockSelectionEnd, getBlockName } = select(import_block_editor7.store);
+    const { getBlockSelectionEnd, getBlockName } = select(import_block_editor8.store);
     const selectionEndClientId = getBlockSelectionEnd();
     if (getBlockName(selectionEndClientId) === "core/widget-area") {
       return selectionEndClientId;
@@ -3057,7 +3072,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.mjs
   var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
-  var { ExperimentalBlockEditorProvider } = unlock(import_block_editor8.privateApis);
+  var { ExperimentalBlockEditorProvider } = unlock(import_block_editor9.privateApis);
   var { PatternsMenuItems } = unlock(import_patterns.privateApis);
   var { BlockKeyboardShortcuts } = unlock(import_block_library.privateApis);
   var EMPTY_ARRAY2 = [];
@@ -3163,14 +3178,14 @@ var wp;
   // packages/edit-widgets/build-module/components/sidebar/index.mjs
   var import_element13 = __toESM(require_element(), 1);
   var import_i18n8 = __toESM(require_i18n(), 1);
-  var import_block_editor10 = __toESM(require_block_editor(), 1);
+  var import_block_editor11 = __toESM(require_block_editor(), 1);
   var import_components11 = __toESM(require_components(), 1);
   var import_data15 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/components/sidebar/widget-areas.mjs
   var import_data14 = __toESM(require_data(), 1);
   var import_element12 = __toESM(require_element(), 1);
-  var import_block_editor9 = __toESM(require_block_editor(), 1);
+  var import_block_editor10 = __toESM(require_block_editor(), 1);
   var import_components10 = __toESM(require_components(), 1);
   var import_i18n7 = __toESM(require_i18n(), 1);
   var import_url = __toESM(require_url(), 1);
@@ -3201,7 +3216,7 @@ var wp;
       description = selectedWidgetArea.description;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("div", { className: "edit-widgets-widget-areas", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "edit-widgets-widget-areas__top-container", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(import_block_editor9.BlockIcon, { icon: block_default_default }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(import_block_editor10.BlockIcon, { icon: block_default_default }),
       /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
           "p",
@@ -3300,7 +3315,7 @@ var wp;
             {
               tabId: BLOCK_INSPECTOR_IDENTIFIER,
               focusable: false,
-              children: hasSelectedNonAreaBlock ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_block_editor10.BlockInspector, {}) : (
+              children: hasSelectedNonAreaBlock ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_block_editor11.BlockInspector, {}) : (
                 // Pretend that Widget Areas are part of the UI by not
                 // showing the Block Inspector when one is selected.
                 /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { className: "block-editor-block-inspector__no-blocks", children: (0, import_i18n8.__)("No block selected.") })
@@ -3318,7 +3333,7 @@ var wp;
       isGeneralSidebarOpen,
       selectedWidgetAreaBlock
     } = (0, import_data15.useSelect)((select) => {
-      const { getSelectedBlock, getBlock, getBlockParentsByBlockName } = select(import_block_editor10.store);
+      const { getSelectedBlock, getBlock, getBlockParentsByBlockName } = select(import_block_editor11.store);
       const { getActiveComplementaryArea: getActiveComplementaryArea2 } = select(store);
       const selectedBlock = getSelectedBlock();
       const activeArea = getActiveComplementaryArea2(store2.name);
@@ -3383,14 +3398,14 @@ var wp;
 
   // packages/edit-widgets/build-module/components/layout/interface.mjs
   var import_compose12 = __toESM(require_compose(), 1);
-  var import_block_editor17 = __toESM(require_block_editor(), 1);
+  var import_block_editor18 = __toESM(require_block_editor(), 1);
   var import_element23 = __toESM(require_element(), 1);
   var import_data28 = __toESM(require_data(), 1);
   var import_i18n18 = __toESM(require_i18n(), 1);
   var import_preferences8 = __toESM(require_preferences(), 1);
 
   // packages/edit-widgets/build-module/components/header/index.mjs
-  var import_block_editor12 = __toESM(require_block_editor(), 1);
+  var import_block_editor13 = __toESM(require_block_editor(), 1);
   var import_data22 = __toESM(require_data(), 1);
   var import_element19 = __toESM(require_element(), 1);
   var import_i18n16 = __toESM(require_i18n(), 1);
@@ -3402,7 +3417,7 @@ var wp;
   var import_data18 = __toESM(require_data(), 1);
   var import_i18n11 = __toESM(require_i18n(), 1);
   var import_components14 = __toESM(require_components(), 1);
-  var import_block_editor11 = __toESM(require_block_editor(), 1);
+  var import_block_editor12 = __toESM(require_block_editor(), 1);
   var import_element16 = __toESM(require_element(), 1);
   var import_compose6 = __toESM(require_compose(), 1);
 
@@ -3500,7 +3515,7 @@ var wp;
       [setIsInserterOpened2, isInserterOpen]
     );
     return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
-      import_block_editor11.NavigableToolbar,
+      import_block_editor12.NavigableToolbar,
       {
         className: "edit-widgets-header-toolbar",
         "aria-label": (0, import_i18n11.__)("Document tools"),
@@ -4073,7 +4088,7 @@ var wp;
         ),
         /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(document_tools_default, {}),
         hasFixedToolbar && isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "selected-block-tools-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_block_editor12.BlockToolbar, { hideDragHandle: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "selected-block-tools-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_block_editor13.BlockToolbar, { hideDragHandle: true }) }),
           /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
             import_components19.Popover.Slot,
             {
@@ -4093,7 +4108,7 @@ var wp;
   var header_default = Header;
 
   // packages/edit-widgets/build-module/components/widget-areas-block-editor-content/index.mjs
-  var import_block_editor13 = __toESM(require_block_editor(), 1);
+  var import_block_editor14 = __toESM(require_block_editor(), 1);
   var import_compose9 = __toESM(require_compose(), 1);
   var import_data23 = __toESM(require_data(), 1);
   var import_element20 = __toESM(require_element(), 1);
@@ -4101,12 +4116,14 @@ var wp;
 
   // packages/edit-widgets/build-module/components/notices/index.mjs
   var import_notices2 = __toESM(require_notices(), 1);
+  var import_theme = __toESM(require_theme(), 1);
   var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
   function Notices() {
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_jsx_runtime39.Fragment, { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_theme.ThemeProvider, { cornerRadius: "none", children: [
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
         import_notices2.InlineNotices,
         {
+          className: "edit-widgets-notices",
           pinnedNoticesClassName: "edit-widgets-notices__pinned",
           dismissibleNoticesClassName: "edit-widgets-notices__dismissible"
         }
@@ -4134,17 +4151,17 @@ var wp;
     }, [blockEditorSettings, hasThemeStyles]);
     return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "edit-widgets-block-editor", children: [
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(notices_default, {}),
-      !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.BlockToolbar, { hideDragHandle: true }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(import_block_editor13.BlockTools, { children: [
+      !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.BlockToolbar, { hideDragHandle: true }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(import_block_editor14.BlockTools, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(keyboard_shortcuts_default, {}),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-          import_block_editor13.__unstableEditorStyles,
+          import_block_editor14.__unstableEditorStyles,
           {
             styles,
             scope: ":where(.editor-styles-wrapper)"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.BlockSelectionClearer, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.WritingFlow, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.BlockList, { className: "edit-widgets-main-block-list" }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.BlockSelectionClearer, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.WritingFlow, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.BlockList, { className: "edit-widgets-main-block-list" }) }) })
       ] })
     ] });
   }
@@ -4153,14 +4170,14 @@ var wp;
   var import_data27 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.mjs
-  var import_block_editor15 = __toESM(require_block_editor(), 1);
+  var import_block_editor16 = __toESM(require_block_editor(), 1);
   var import_compose10 = __toESM(require_compose(), 1);
   var import_element21 = __toESM(require_element(), 1);
   var import_data25 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/hooks/use-widget-library-insertion-point.mjs
   var import_data24 = __toESM(require_data(), 1);
-  var import_block_editor14 = __toESM(require_block_editor(), 1);
+  var import_block_editor15 = __toESM(require_block_editor(), 1);
   var import_core_data11 = __toESM(require_core_data(), 1);
   var useWidgetLibraryInsertionPoint = () => {
     const firstRootId = (0, import_data24.useSelect)((select) => {
@@ -4179,7 +4196,7 @@ var wp;
           getBlockSelectionEnd,
           getBlockOrder,
           getBlockIndex
-        } = select(import_block_editor14.store);
+        } = select(import_block_editor15.store);
         const insertionPoint = select(store2).__experimentalGetInsertionPoint();
         if (insertionPoint.rootClientId) {
           return insertionPoint;
@@ -4213,7 +4230,7 @@ var wp;
     }, [setIsInserterOpened2]);
     const libraryRef = (0, import_element21.useRef)();
     return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "edit-widgets-layout__inserter-panel", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "edit-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
-      import_block_editor15.__experimentalLibrary,
+      import_block_editor16.__experimentalLibrary,
       {
         showInserterHelpPanel: true,
         shouldFocusBlock: isMobileViewport,
@@ -4226,7 +4243,7 @@ var wp;
   }
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/list-view-sidebar.mjs
-  var import_block_editor16 = __toESM(require_block_editor(), 1);
+  var import_block_editor17 = __toESM(require_block_editor(), 1);
   var import_components20 = __toESM(require_components(), 1);
   var import_compose11 = __toESM(require_compose(), 1);
   var import_data26 = __toESM(require_data(), 1);
@@ -4277,7 +4294,7 @@ var wp;
               {
                 className: "edit-widgets-editor__list-view-panel-content",
                 ref: (0, import_compose11.useMergeRefs)([focusOnMountRef, setDropZoneElement]),
-                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_block_editor16.__experimentalListView, { dropZoneElement })
+                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_block_editor17.__experimentalListView, { dropZoneElement })
               }
             )
           ]
@@ -4369,7 +4386,7 @@ var wp;
             blockEditorSettings
           }
         ) }),
-        footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "edit-widgets-layout__footer", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_block_editor17.BlockBreadcrumb, { rootLabelText: (0, import_i18n18.__)("Widgets") }) })
+        footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "edit-widgets-layout__footer", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_block_editor18.BlockBreadcrumb, { rootLabelText: (0, import_i18n18.__)("Widgets") }) })
       }
     );
   }

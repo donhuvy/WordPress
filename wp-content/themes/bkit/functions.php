@@ -207,3 +207,17 @@ function bkit_vietnamese_encoding_headers() {
     echo '<meta http-equiv="Content-Language" content="vi">' . "\n";
 }
 add_action( 'wp_head', 'bkit_vietnamese_encoding_headers', 0 );
+
+/**
+ * Add red B favicon for BKIT theme without modifying core WordPress files.
+ */
+function bkit_add_custom_favicon() {
+    $theme_dir = get_template_directory_uri();
+    echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $theme_dir . '/images/favicon.svg' ) . '">' . "\n";
+    echo '<link rel="alternate icon" type="image/x-icon" href="' . esc_url( $theme_dir . '/images/favicon.ico' ) . '">' . "\n";
+    echo '<link rel="apple-touch-icon" href="' . esc_url( $theme_dir . '/images/favicon.svg' ) . '">' . "\n";
+}
+add_action( 'wp_head', 'bkit_add_custom_favicon', 1 );
+add_action( 'admin_head', 'bkit_add_custom_favicon', 1 );
+add_action( 'login_head', 'bkit_add_custom_favicon', 1 );
+

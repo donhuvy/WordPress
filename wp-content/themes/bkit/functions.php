@@ -221,3 +221,125 @@ add_action( 'wp_head', 'bkit_add_custom_favicon', 1 );
 add_action( 'admin_head', 'bkit_add_custom_favicon', 1 );
 add_action( 'login_head', 'bkit_add_custom_favicon', 1 );
 
+/**
+ * Tùy chỉnh hiển thị tối đa 20 nút bấm trang trực tiếp (chưa bao gồm nút Trang trước, Trang sau).
+ * Nếu tổng số trang <= 20, hiển thị đầy đủ tất cả các nút trang.
+ * Nếu tổng số trang > 20, hiển thị tối đa 20 nút bấm trực tiếp quanh trang hiện tại.
+ */
+function bkit_custom_paginate_links_output( $r, $args ) {
+    if ( empty( $args['total'] ) || (int) $args['total'] < 2 ) {
+        return $r;
+    }
+
+    $total       = (int) $args['total'];
+    $current     = (int) ( $args['current'] ?? 1 );
+    $max_visible = 20;
+
+    if ( $total <= $max_visible ) {
+        $pages_to_show = range( 1, $total );
+    } else {
+        $start = $current - 8;
+        $end   = $current + 9;
+        if ( $start <= 3 ) {
+            $start = 1;
+            $end   = $max_visible - 1;
+        } elseif ( $end >= $total - 2 ) {
+            $end   = $total;
+            $start = $total - ( $max_visible - 2 );
+        }
+
+        $pages_to_show = array();
+        if ( $start > 1 ) {
+            $pages_to_show[] = 1;
+            if ( $start > 2 ) {
+                $pages_to_show[] = 'dots';
+            }
+        }
+        for ( $i = $start; $i <= $end; $i++ ) {
+            $pages_to_show[] = $i;
+        }
+        if ( $end < $total ) {
+            if ( $end < $total - 1 ) {
+                $pages_to_show[] = 'dots';
+            }
+            $pages_to_show[] = $total;
+        }
+    }
+
+    $page_links = array();
+    $add_args   = $args['add_args'] ?? array();
+
+    // Nút "Trang trước"
+    if ( ! empty( $args['prev_next'] ) && $current && $current > 1 ) {
+        $link = str_replace( '%_%', 2 === $current ? '' : $args['format'], $args['base'] );
+        $link = str_replace( '%#%', $current - 1, $link );
+        if ( ! empty( $add_args ) ) {
+            $link = add_query_arg( $add_args, $link );
+        }
+        $link .= $args['add_fragment'] ?? '';
+
+        $page_links[] = sprintf(
+            '<a class="prev page-numbers" href="%s">%s</a>',
+            esc_url( apply_filters( 'paginate_links', $link ) ),
+            $args['prev_text'] ?? __( '&laquo; Previous' )
+        );
+    }
+
+    // Các nút số trang
+    foreach ( $pages_to_show as $p ) {
+        if ( 'dots' === $p ) {
+            $page_links[] = '<span class="page-numbers dots">' . __( '&hellip;' ) . '</span>';
+        } elseif ( $p === $current ) {
+            $page_links[] = sprintf(
+                '<span aria-current="%s" class="page-numbers current">%s</span>',
+                esc_attr( $args['aria_current'] ?? 'page' ),
+                ( $args['before_page_number'] ?? '' ) . number_format_i18n( $p ) . ( $args['after_page_number'] ?? '' )
+            );
+        } else {
+            $link = str_replace( '%_%', 1 === $p ? '' : $args['format'], $args['base'] );
+            $link = str_replace( '%#%', $p, $link );
+            if ( ! empty( $add_args ) ) {
+                $link = add_query_arg( $add_args, $link );
+            }
+            $link .= $args['add_fragment'] ?? '';
+
+            $page_links[] = sprintf(
+                '<a class="page-numbers" href="%s">%s</a>',
+                esc_url( apply_filters( 'paginate_links', $link ) ),
+                ( $args['before_page_number'] ?? '' ) . number_format_i18n( $p ) . ( $args['after_page_number'] ?? '' )
+            );
+        }
+    }
+
+    // Nút "Trang sau"
+    if ( ! empty( $args['prev_next'] ) && $current && $current < $total ) {
+        $link = str_replace( '%_%', $args['format'], $args['base'] );
+        $link = str_replace( '%#%', $current + 1, $link );
+        if ( ! empty( $add_args ) ) {
+            $link = add_query_arg( $add_args, $link );
+        }
+        $link .= $args['add_fragment'] ?? '';
+
+        $page_links[] = sprintf(
+            '<a class="next page-numbers" href="%s">%s</a>',
+            esc_url( apply_filters( 'paginate_links', $link ) ),
+            $args['next_text'] ?? __( 'Next &raquo;' )
+        );
+    }
+
+    $type = $args['type'] ?? 'plain';
+    switch ( $type ) {
+        case 'array':
+            return $page_links;
+        case 'list':
+            $out  = "<ul class='page-numbers'>\n\t<li>";
+            $out .= implode( "</li>\n\t<li>", $page_links );
+            $out .= "</li>\n</ul>\n";
+            return $out;
+        default:
+            return implode( "\n", $page_links );
+    }
+}
+add_filter( 'paginate_links_output', 'bkit_custom_paginate_links_output', 10, 2 );
+
+

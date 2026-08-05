@@ -50,6 +50,8 @@ get_header();
 
         the_posts_pagination(
             array(
+                'mid_size'           => 9,
+                'end_size'           => 1,
                 'prev_text'          => 'Trang trước',
                 'next_text'          => 'Trang sau',
                 'screen_reader_text' => 'Điều hướng bài viết',

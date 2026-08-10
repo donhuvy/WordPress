@@ -8,7 +8,13 @@
             <span class="site-title" style="color: #ff0000 !important; font-weight: 800; font-size: 1.25rem;"><?php bloginfo( 'name' ); ?></span>
         </div>
         <div class="footer-copyright">
-            <p>&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.</p>
+            <p>&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>. 
+            <?php 
+            if ( function_exists( 'bkit_google_preferred_source_cta' ) ) {
+                echo bkit_google_preferred_source_cta( 'button', 'Thêm Kế toán BKIT làm Nguồn Ưu Tiên Google Search' );
+            }
+            ?>
+            </p>
         </div>
     </div>
 </footer>

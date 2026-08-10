@@ -632,3 +632,158 @@ select:focus {
         max-width: 400px;
     }
 }
+
+/* =========================================================================
+ * GOOGLE PREFERRED SOURCES STYLES
+ * ========================================================================= */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Badge (Header) Style */
+.google-preferred-source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    color: #000000 !important;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0px #000000;
+    text-decoration: none !important;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.google-preferred-source-badge:hover {
+    background-color: #fff9e6;
+    transform: translateY(-1px);
+    color: #000000 !important;
+}
+
+.google-preferred-source-badge .star-icon {
+    color: #f4b400;
+}
+
+/* Button Style */
+.google-preferred-source-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #4285f4;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0px #000000;
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+}
+
+.google-preferred-source-btn:hover {
+    background-color: #3367d6;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.google-preferred-source-btn .google-icon {
+    background: #ffffff;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+/* Banner Style (Single Post & Callout) */
+.google-preferred-source-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #000000;
+    border-left: 6px solid #4285f4;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px #000000;
+    padding: 18px 24px;
+    margin: 24px 0;
+}
+
+.gps-banner-content {
+    flex: 1;
+}
+
+.gps-banner-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.gps-banner-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #000000;
+}
+
+.gps-banner-desc {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+    color: #444444;
+    margin: 0 !important;
+}
+
+.gps-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none !important;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0px #000000;
+    transition: all 0.15s ease;
+}
+
+.gps-btn-primary {
+    background-color: #4285f4;
+    color: #ffffff !important;
+}
+
+.gps-btn-primary:hover {
+    background-color: #3367d6;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0px #000000;
+}
+
+.gps-btn .star-icon {
+    color: #f4b400;
+}
+
+@media (max-width: 768px) {
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .google-preferred-source-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .gps-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

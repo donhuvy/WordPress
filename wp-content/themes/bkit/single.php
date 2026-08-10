@@ -22,6 +22,12 @@ get_header();
                 ?>
             </div>
 
+            <?php 
+            if ( function_exists( 'bkit_google_preferred_source_cta' ) ) {
+                echo bkit_google_preferred_source_cta( 'banner' );
+            }
+            ?>
+
             <?php if ( has_tag() ) : ?>
                 <div class="post-tags">
                     <?php the_tags( '', ' ', '' ); ?>

@@ -342,4 +342,129 @@ function bkit_custom_paginate_links_output( $r, $args ) {
 }
 add_filter( 'paginate_links_output', 'bkit_custom_paginate_links_output', 10, 2 );
 
+/* =========================================================================
+ * GOOGLE PREFERRED SOURCES (Nguồn Ưu Tiên Google Search) FOR ketoan.bkit.vn
+ * Documentation: https://developers.google.com/search/docs/appearance/preferred-sources
+ * ========================================================================= */
+
+/**
+ * Output Open Graph and Google Preferred Source meta tags in <head>.
+ */
+function bkit_google_preferred_source_meta() {
+    echo '<meta property="og:site_name" content="Kế toán BKIT">' . "\n";
+}
+add_action( 'wp_head', 'bkit_google_preferred_source_meta', 2 );
+
+/**
+ * Output JSON-LD Structured Data for WebSite & Organization for Google Search.
+ */
+function bkit_google_preferred_source_schema() {
+    $site_url = 'https://ketoan.bkit.vn';
+    $logo_url = get_template_directory_uri() . '/images/bkit.png';
+
+    $website_schema = array(
+        '@context'      => 'https://schema.org',
+        '@type'         => 'WebSite',
+        '@id'           => $site_url . '/#website',
+        'url'           => $site_url,
+        'name'          => 'Kế toán BKIT',
+        'alternateName' => 'BKIT Accounting',
+        'description'   => get_bloginfo( 'description' ),
+        'inLanguage'    => 'vi-VN',
+        'publisher'     => array(
+            '@id' => $site_url . '/#organization',
+        ),
+    );
+
+    $organization_schema = array(
+        '@context' => 'https://schema.org',
+        '@type'    => 'Organization',
+        '@id'      => $site_url . '/#organization',
+        'name'     => 'Kế toán BKIT',
+        'url'      => $site_url,
+        'logo'     => array(
+            '@type' => 'ImageObject',
+            'url'   => $logo_url,
+        ),
+    );
+
+    echo '<script type="application/ld+json">' . "\n";
+    echo wp_json_encode( array( $website_schema, $organization_schema ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT );
+    echo "\n</script>\n";
+}
+add_action( 'wp_head', 'bkit_google_preferred_source_schema', 3 );
+
+/**
+ * Render Google Preferred Source CTA HTML.
+ *
+ * @param string $style Style of CTA ('button', 'badge', 'banner').
+ * @param string $text  Custom text override.
+ * @return string HTML output.
+ */
+function bkit_google_preferred_source_cta( $style = 'button', $text = '' ) {
+    $target_url  = 'https://www.google.com/preferences/source?q=ketoan.bkit.vn';
+    $google_icon = '<svg class="google-icon" viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>';
+    $star_icon   = '<svg class="star-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+
+    if ( 'banner' === $style ) {
+        $default_text = 'Chọn <strong>Kế toán BKIT</strong> làm Nguồn Ưu Tiên trên Google Tìm Kiếm';
+        $cta_text     = ! empty( $text ) ? $text : $default_text;
+
+        $html  = '<div class="google-preferred-source-banner">';
+        $html .= '  <div class="gps-banner-content">';
+        $html .= '    <div class="gps-banner-header">';
+        $html .= '      ' . $google_icon;
+        $html .= '      <span class="gps-banner-title">' . $cta_text . '</span>';
+        $html .= '    </div>';
+        $html .= '    <p class="gps-banner-desc">Nhận thông tin cập nhật nhanh nhất & chính xác nhất về kế toán, thuế và tài chính trực tiếp trên Google Search & AI Overviews.</p>';
+        $html .= '  </div>';
+        $html .= '  <a href="' . esc_url( $target_url ) . '" target="_blank" rel="noopener noreferrer" class="gps-btn gps-btn-primary">';
+        $html .= '    ' . $star_icon . ' <span>Thêm Nguồn Ưu Tiên</span>';
+        $html .= '  </a>';
+        $html .= '</div>';
+        return $html;
+    }
+
+    if ( 'badge' === $style ) {
+        $default_text = 'Nguồn Ưu Tiên Google';
+        $cta_text     = ! empty( $text ) ? $text : $default_text;
+
+        $html  = '<a href="' . esc_url( $target_url ) . '" target="_blank" rel="noopener noreferrer" class="google-preferred-source-badge" title="Đặt ketoan.bkit.vn làm nguồn ưu tiên trên Google Search">';
+        $html .= '  ' . $google_icon;
+        $html .= '  <span>' . esc_html( $cta_text ) . '</span>';
+        $html .= '  ' . $star_icon;
+        $html .= '</a>';
+        return $html;
+    }
+
+    // Default 'button' style
+    $default_text = 'Thêm làm Nguồn Ưu Tiên trên Google';
+    $cta_text     = ! empty( $text ) ? $text : $default_text;
+
+    $html  = '<a href="' . esc_url( $target_url ) . '" target="_blank" rel="noopener noreferrer" class="google-preferred-source-btn" title="Chọn ketoan.bkit.vn làm Nguồn Ưu Tiên trên Google Tìm Kiếm">';
+    $html .= '  ' . $google_icon;
+    $html .= '  <span>' . esc_html( $cta_text ) . '</span>';
+    $html .= '</a>';
+
+    return $html;
+}
+
+/**
+ * Shortcode [google_preferred_source style="button|banner|badge" text="..."]
+ */
+function bkit_google_preferred_source_shortcode( $atts ) {
+    $atts = shortcode_atts(
+        array(
+            'style' => 'button',
+            'text'  => '',
+        ),
+        $atts,
+        'google_preferred_source'
+    );
+
+    return bkit_google_preferred_source_cta( $atts['style'], $atts['text'] );
+}
+add_shortcode( 'google_preferred_source', 'bkit_google_preferred_source_shortcode' );
+
+
 

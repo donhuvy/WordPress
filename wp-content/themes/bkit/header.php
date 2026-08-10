@@ -33,15 +33,8 @@
             );
             ?>
         </nav>
-        <div class="header-actions">
-            <?php 
-            if ( function_exists( 'bkit_google_preferred_source_cta' ) ) {
-                echo bkit_google_preferred_source_cta( 'badge' );
-            } 
-            ?>
-            <div class="header-search">
-                <?php get_search_form(); ?>
-            </div>
+        <div class="header-search">
+            <?php get_search_form(); ?>
         </div>
     </div>
 </header>

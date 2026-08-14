@@ -787,3 +787,400 @@ select:focus {
         justify-content: center;
     }
 }
+
+/* =========================================================================
+ * AI ASSISTANT BUTTONS (ChatGPT, Claude) & SIDE POSTS STYLES
+ * ========================================================================= */
+
+/* Single Post Layout: 2-Column Responsive */
+.site-main-single {
+    max-width: 1560px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.bkit-single-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.bkit-single-main {
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.bkit-single-card {
+    margin-bottom: 2rem;
+}
+
+.bkit-single-sidebar {
+    flex: 0 0 360px;
+    width: 360px;
+    position: sticky;
+    top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Quick AI Action Bar in Post Header */
+.bkit-post-quick-ai {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px dashed #dddddd;
+    flex-wrap: wrap;
+}
+
+.bkit-quick-ai-label {
+    font-size: 13px !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #444444;
+    letter-spacing: 0.5px;
+    line-height: 1 !important;
+}
+
+/* AI Action Container */
+.bkit-ai-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Base AI Button */
+.bkit-ai-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 14px !important;
+    font-weight: 800;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    border-radius: 6px;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0px #000000;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.bkit-ai-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px #000000;
+    text-decoration: none !important;
+}
+
+.bkit-ai-btn:active {
+    transform: translate(0px, 0px);
+    box-shadow: 1px 1px 0px #000000;
+}
+
+.bkit-ai-btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.bkit-ai-btn-icon svg,
+.bkit-ai-btn > svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+/* ChatGPT Button Styling */
+.bkit-ai-chatgpt {
+    background-color: #10a37f;
+    color: #ffffff !important;
+}
+
+.bkit-ai-chatgpt:hover {
+    background-color: #0e8c6d;
+    color: #ffffff !important;
+}
+
+/* Claude Button Styling */
+.bkit-ai-claude {
+    background-color: #d97706;
+    color: #ffffff !important;
+}
+
+.bkit-ai-claude:hover {
+    background-color: #b45309;
+    color: #ffffff !important;
+}
+
+/* Pills Style */
+.bkit-ai-style-pills .bkit-ai-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px !important;
+}
+
+.bkit-ai-style-pills .bkit-ai-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Sidebar & Card Style Buttons */
+.bkit-ai-style-sidebar,
+.bkit-ai-style-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.bkit-ai-style-sidebar .bkit-ai-btn,
+.bkit-ai-style-cards .bkit-ai-btn {
+    width: 100%;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 3px 3px 0px #000000;
+}
+
+.bkit-ai-style-sidebar .bkit-ai-btn-icon,
+.bkit-ai-style-cards .bkit-ai-btn-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.bkit-ai-style-sidebar .bkit-ai-btn-icon svg,
+.bkit-ai-style-cards .bkit-ai-btn-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.bkit-ai-style-sidebar .bkit-ai-btn-text,
+.bkit-ai-style-cards .bkit-ai-btn-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.bkit-ai-btn-title {
+    font-size: 16px !important;
+    font-weight: 800;
+    line-height: 1.2 !important;
+    color: #ffffff;
+}
+
+.bkit-ai-btn-desc {
+    font-size: 12px !important;
+    font-weight: 500;
+    opacity: 0.9;
+    color: #ffffff;
+    margin-top: 2px;
+    line-height: 1.3 !important;
+}
+
+.bkit-ai-btn-arrow {
+    font-size: 18px;
+    font-weight: 800;
+    margin-left: 8px;
+    transition: transform 0.15s ease;
+    color: #ffffff;
+}
+
+.bkit-ai-btn:hover .bkit-ai-btn-arrow {
+    transform: translateX(4px);
+}
+
+/* Sidebar Widgets */
+.bkit-sidebar-widget {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    box-shadow: 3px 3px 0px #000000;
+    padding: 1.25rem;
+    border-radius: 8px;
+}
+
+.bkit-ai-widget {
+    background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
+    border-top: 5px solid #ff0000;
+}
+
+.bkit-widget-header {
+    margin-bottom: 1rem;
+}
+
+.bkit-widget-badge {
+    display: inline-block;
+    background-color: #ff0000;
+    color: #ffffff;
+    font-size: 10px !important;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    line-height: 1.2 !important;
+}
+
+.bkit-widget-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.bkit-widget-desc {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #555555;
+    margin: 0 !important;
+}
+
+/* Side Posts List */
+.bkit-recent-posts-widget {
+    border-top: 5px solid #000000;
+}
+
+.bkit-side-posts-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bkit-side-post-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #e0e0e0;
+    align-items: flex-start;
+}
+
+.bkit-side-post-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.bkit-side-post-thumb {
+    flex: 0 0 70px;
+    width: 70px;
+}
+
+.bkit-side-post-thumb img {
+    width: 70px;
+    height: 52px;
+    object-fit: cover;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    display: block;
+}
+
+.bkit-side-post-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.bkit-side-post-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 6px;
+}
+
+.bkit-side-post-title a {
+    color: #000000;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bkit-side-post-title a:hover {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+.bkit-side-post-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.bkit-side-post-date {
+    font-size: 11px !important;
+    color: #777777;
+    line-height: 1 !important;
+}
+
+.bkit-side-post-ai-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.bkit-ai-mini-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px !important;
+    font-weight: 700;
+    line-height: 1 !important;
+    border: 1px solid #000000;
+    text-decoration: none !important;
+    transition: transform 0.1s ease;
+}
+
+.bkit-ai-mini-btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none !important;
+}
+
+.bkit-ai-mini-chatgpt {
+    background-color: #10a37f;
+    color: #ffffff !important;
+}
+
+.bkit-ai-mini-claude {
+    background-color: #d97706;
+    color: #ffffff !important;
+}
+
+.bkit-ai-mini-btn svg {
+    width: 11px;
+    height: 11px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+    .bkit-single-layout {
+        flex-direction: column;
+    }
+
+    .bkit-single-sidebar {
+        flex: 1 1 auto;
+        width: 100%;
+        position: static;
+    }
+}

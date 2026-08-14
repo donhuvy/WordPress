@@ -466,5 +466,311 @@ function bkit_google_preferred_source_shortcode( $atts ) {
 }
 add_shortcode( 'google_preferred_source', 'bkit_google_preferred_source_shortcode' );
 
+/* =========================================================================
+ * AI ASSISTANT BUTTONS (ChatGPT, Claude) FOR POSTS & SIDE POSTS
+ * Inspired by modern documentation platforms like RustFS docs
+ * ========================================================================= */
 
+/**
+ * Get AI prompt URLs for a given post.
+ *
+ * @param int|WP_Post|null $post_id Post ID or WP_Post object.
+ * @param string           $custom_prompt Optional prompt override.
+ * @return array Array with 'chatgpt', 'claude', 'permalink', and 'prompt'
+ */
+function bkit_get_ai_prompt_urls( $post_id = null, $custom_prompt = '' ) {
+    $post = get_post( $post_id );
+    if ( ! $post ) {
+        $permalink = home_url( '/' );
+        $title     = get_bloginfo( 'name' );
+    } else {
+        $permalink = get_permalink( $post );
+        $title     = get_the_title( $post );
+    }
 
+    $prompt_suffix = ! empty( $custom_prompt ) ? $custom_prompt : 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.';
+    $full_prompt   = "Read {$permalink}, {$prompt_suffix}";
+
+    return array(
+        'chatgpt'   => 'https://chatgpt.com/?prompt=' . rawurlencode( $full_prompt ) . '&hints=search',
+        'claude'    => 'https://claude.ai/new?q=' . rawurlencode( $full_prompt ),
+        'permalink' => $permalink,
+        'title'     => $title,
+        'prompt'    => $full_prompt,
+    );
+}
+
+/**
+ * Return authentic SVG icon markup for AI services.
+ *
+ * @param string $service 'chatgpt' or 'claude'
+ * @return string SVG HTML
+ */
+function bkit_get_ai_icon( $service ) {
+    switch ( $service ) {
+        case 'chatgpt':
+            return '<svg class="ai-icon ai-icon-chatgpt" viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.259 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7466-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1683a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4947zm-9.66-4.1354a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1401-1.6564zm-1.6563-9.66a4.485 4.485 0 0 1 2.3418-1.9729v5.6725a.79.79 0 0 0 .388.6766l5.8144 3.3543-2.02 1.1683a.0757.0757 0 0 1-.071 0l-4.8303-2.7866A4.4992 4.4992 0 0 1 1.9436 8.6338zm16.597 3.8558L12.703 9.121l2.02-1.1683a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.388-.6766l-.019-.0047zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.009 9.9681V7.6357a.0757.0757 0 0 1 .0332-.0615l4.882-2.8245a4.4992 4.4992 0 0 1 6.6025 4.6548l-.001.0335zm-8.6942-3.415a4.4755 4.4755 0 0 1 2.8764 1.0408l-.1419.0804-4.7783 2.7582a.7948.7948 0 0 0-.3927.6813v6.7369l-2.02-1.1683a.071.071 0 0 1-.038-.052V9.8211a4.504 4.504 0 0 1 4.4945-4.4947zm-1.079 5.8617l2.848 1.643-2.848 1.643-2.848-1.643 2.848-1.643z" fill="currentColor"/></svg>';
+
+        case 'claude':
+            return '<svg class="ai-icon ai-icon-claude" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 2.007a.9.9 0 0 0-.82.529l-3.238 7.37-3.239-7.37a.9.9 0 0 0-.82-.536.9.9 0 0 0-.82.536L4.01 12.398a.9.9 0 0 0 .17.986l6.764 7.683a.9.9 0 0 0 1.353 0l6.764-7.683a.9.9 0 0 0 .17-.986l-4.54-9.862a.9.9 0 0 0-.219-.529zm-5.47 3.328 2.05 4.665h-4.1zM6.16 12.443l3.226-7.008 2.158 4.908-4.24 4.814zm11.68 0-1.144 2.714-4.24-4.814 2.158-4.908zm-5.84 6.634-5.267-5.981h10.534z"/></svg>';
+
+        default:
+            return '';
+    }
+}
+
+/**
+ * Render ready-to-use AI action buttons (ChatGPT & Claude).
+ *
+ * @param array $args Options for rendering.
+ * @return string HTML output.
+ */
+function bkit_render_ai_action_buttons( $args = array() ) {
+    $defaults = array(
+        'post_id'       => null,
+        'style'         => 'buttons', // 'buttons', 'compact', 'pills', 'cards', 'sidebar'
+        'show_chatgpt'  => true,
+        'show_claude'   => true,
+        'chatgpt_text'  => 'ChatGPT',
+        'claude_text'   => 'Claude',
+        'chatgpt_sub'   => 'Hỏi đáp & phân tích nội dung',
+        'claude_sub'    => 'Tóm tắt & mở rộng thông tin',
+        'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
+        'class'         => '',
+    );
+
+    $args = wp_parse_args( $args, $defaults );
+    $urls = bkit_get_ai_prompt_urls( $args['post_id'], $args['custom_prompt'] );
+
+    $output  = '<div class="bkit-ai-actions bkit-ai-style-' . esc_attr( $args['style'] ) . ' ' . esc_attr( $args['class'] ) . '">';
+
+    if ( 'sidebar' === $args['style'] || 'cards' === $args['style'] ) {
+        // Full interactive card style with subtext
+        if ( $args['show_chatgpt'] ) {
+            $output .= '<a href="' . esc_url( $urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt" title="Mở bài viết này trong ChatGPT kèm câu hỏi">';
+            $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'chatgpt' ) . '</div>';
+            $output .= '  <div class="bkit-ai-btn-text">';
+            $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['chatgpt_text'] ) . '</span>';
+            if ( ! empty( $args['chatgpt_sub'] ) ) {
+                $output .= '    <span class="bkit-ai-btn-desc">' . esc_html( $args['chatgpt_sub'] ) . '</span>';
+            }
+            $output .= '  </div>';
+            $output .= '  <span class="bkit-ai-btn-arrow">&rarr;</span>';
+            $output .= '</a>';
+        }
+
+        if ( $args['show_claude'] ) {
+            $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" title="Mở bài viết này trong Claude kèm câu hỏi">';
+            $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'claude' ) . '</div>';
+            $output .= '  <div class="bkit-ai-btn-text">';
+            $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['claude_text'] ) . '</span>';
+            if ( ! empty( $args['claude_sub'] ) ) {
+                $output .= '    <span class="bkit-ai-btn-desc">' . esc_html( $args['claude_sub'] ) . '</span>';
+            }
+            $output .= '  </div>';
+            $output .= '  <span class="bkit-ai-btn-arrow">&rarr;</span>';
+            $output .= '</a>';
+        }
+    } else {
+        // Direct ready-to-use buttons (compact / pills / standard)
+        if ( $args['show_chatgpt'] ) {
+            $output .= '<a href="' . esc_url( $urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt" title="Hỏi ChatGPT: ' . esc_attr( $urls['title'] ) . '">';
+            $output .= '  ' . bkit_get_ai_icon( 'chatgpt' );
+            $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['chatgpt_text'] ) . '</span>';
+            $output .= '</a>';
+        }
+
+        if ( $args['show_claude'] ) {
+            $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" title="Hỏi Claude: ' . esc_attr( $urls['title'] ) . '">';
+            $output .= '  ' . bkit_get_ai_icon( 'claude' );
+            $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['claude_text'] ) . '</span>';
+            $output .= '</a>';
+        }
+    }
+
+    $output .= '</div>';
+
+    return $output;
+}
+
+/**
+ * Render Side Posts Widget with AI buttons and recent/related posts.
+ *
+ * @param int $current_post_id Current post ID to exclude.
+ * @param int $limit Number of posts to show.
+ * @return string HTML output.
+ */
+function bkit_render_side_posts_sidebar( $current_post_id = 0, $limit = 5 ) {
+    $current_post_id = $current_post_id ? $current_post_id : get_the_ID();
+
+    $html  = '<aside class="bkit-post-sidebar">';
+    
+    // Khối 1: Hộp công cụ Hỏi AI trực tiếp cho bài viết hiện tại
+    $html .= '<div class="bkit-sidebar-widget bkit-ai-widget">';
+    $html .= '  <div class="bkit-widget-header">';
+    $html .= '    <h3 class="bkit-widget-title">';
+    $html .= '      <span class="bkit-widget-badge">Trợ lý AI</span>';
+    $html .= '      Hỏi AI về bài viết';
+    $html .= '    </h3>';
+    $html .= '    <p class="bkit-widget-desc">Gửi trực tiếp liên kết bài viết sang AI để hỏi đáp, tra cứu hoặc giải thích chi tiết:</p>';
+    $html .= '  </div>';
+
+    $html .= bkit_render_ai_action_buttons( array(
+        'post_id'       => $current_post_id,
+        'style'         => 'sidebar',
+        'chatgpt_text'  => 'ChatGPT',
+        'claude_text'   => 'Claude',
+        'chatgpt_sub'   => 'Hỏi đáp & phân tích nội dung',
+        'claude_sub'    => 'Tóm tắt & nghiên cứu sâu',
+        'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
+    ) );
+
+    $html .= '</div>';
+
+    // Khối 2: Bài viết mới nhất (Side posts)
+    $args = array(
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => $limit,
+        'post__not_in'        => $current_post_id ? array( $current_post_id ) : array(),
+        'ignore_sticky_posts' => 1,
+    );
+
+    $side_query = new WP_Query( $args );
+
+    if ( $side_query->have_posts() ) {
+        $html .= '<div class="bkit-sidebar-widget bkit-recent-posts-widget">';
+        $html .= '  <div class="bkit-widget-header">';
+        $html .= '    <h3 class="bkit-widget-title">Bài viết liên quan & mới nhất</h3>';
+        $html .= '  </div>';
+        $html .= '  <ul class="bkit-side-posts-list">';
+
+        while ( $side_query->have_posts() ) {
+            $side_query->the_post();
+            $post_id   = get_the_ID();
+            $permalink = get_permalink();
+            $title     = get_the_title();
+            $date      = get_the_date( 'd/m/Y' );
+            $post_urls = bkit_get_ai_prompt_urls( $post_id, 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.' );
+
+            $html .= '<li class="bkit-side-post-item">';
+            
+            if ( has_post_thumbnail( $post_id ) ) {
+                $html .= '<div class="bkit-side-post-thumb">';
+                $html .= '  <a href="' . esc_url( $permalink ) . '">';
+                $html .= get_the_post_thumbnail( $post_id, 'thumbnail' );
+                $html .= '  </a>';
+                $html .= '</div>';
+            }
+
+            $html .= '<div class="bkit-side-post-content">';
+            $html .= '  <h4 class="bkit-side-post-title">';
+            $html .= '    <a href="' . esc_url( $permalink ) . '">' . esc_html( $title ) . '</a>';
+            $html .= '  </h4>';
+            $html .= '  <div class="bkit-side-post-meta">';
+            $html .= '    <span class="bkit-side-post-date">' . esc_html( $date ) . '</span>';
+            $html .= '    <div class="bkit-side-post-ai-mini">';
+            $html .= '      <a href="' . esc_url( $post_urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-mini-btn bkit-ai-mini-chatgpt" title="Hỏi ChatGPT về bài này">' . bkit_get_ai_icon( 'chatgpt' ) . ' <span>ChatGPT</span></a>';
+            $html .= '      <a href="' . esc_url( $post_urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-mini-btn bkit-ai-mini-claude" title="Hỏi Claude về bài này">' . bkit_get_ai_icon( 'claude' ) . ' <span>Claude</span></a>';
+            $html .= '    </div>';
+            $html .= '  </div>';
+            $html .= '</div>';
+
+            $html .= '</li>';
+        }
+        wp_reset_postdata();
+
+        $html .= '  </ul>';
+        $html .= '</div>';
+    }
+
+    $html .= '</aside>';
+
+    return $html;
+}
+
+/**
+ * Shortcode: [ai_ask_buttons style="buttons|pills|sidebar|cards" chatgpt_text="..." claude_text="..."]
+ */
+function bkit_ai_ask_buttons_shortcode( $atts ) {
+    $atts = shortcode_atts(
+        array(
+            'post_id'       => 0,
+            'style'         => 'buttons',
+            'chatgpt_text'  => 'ChatGPT',
+            'claude_text'   => 'Claude',
+            'chatgpt_sub'   => 'Hỏi đáp & phân tích',
+            'claude_sub'    => 'Tóm tắt & mở rộng',
+            'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
+            'class'         => '',
+        ),
+        $atts,
+        'ai_ask_buttons'
+    );
+
+    if ( empty( $atts['post_id'] ) ) {
+        $atts['post_id'] = get_the_ID();
+    }
+
+    return bkit_render_ai_action_buttons( $atts );
+}
+add_shortcode( 'ai_ask_buttons', 'bkit_ai_ask_buttons_shortcode' );
+add_shortcode( 'ai_buttons', 'bkit_ai_ask_buttons_shortcode' );
+
+/**
+ * Shortcode: [chatgpt_button text="ChatGPT" prompt="..."]
+ */
+function bkit_chatgpt_button_shortcode( $atts ) {
+    $atts = shortcode_atts(
+        array(
+            'post_id' => 0,
+            'text'    => 'ChatGPT',
+            'prompt'  => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
+            'class'   => '',
+        ),
+        $atts,
+        'chatgpt_button'
+    );
+
+    $post_id = ! empty( $atts['post_id'] ) ? $atts['post_id'] : get_the_ID();
+    $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
+
+    return sprintf(
+        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt %s" title="Hỏi ChatGPT: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
+        esc_url( $urls['chatgpt'] ),
+        esc_attr( $atts['class'] ),
+        esc_attr( $urls['title'] ),
+        bkit_get_ai_icon( 'chatgpt' ),
+        esc_html( $atts['text'] )
+    );
+}
+add_shortcode( 'chatgpt_button', 'bkit_chatgpt_button_shortcode' );
+
+/**
+ * Shortcode: [claude_button text="Claude" prompt="..."]
+ */
+function bkit_claude_button_shortcode( $atts ) {
+    $atts = shortcode_atts(
+        array(
+            'post_id' => 0,
+            'text'    => 'Claude',
+            'prompt'  => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
+            'class'   => '',
+        ),
+        $atts,
+        'claude_button'
+    );
+
+    $post_id = ! empty( $atts['post_id'] ) ? $atts['post_id'] : get_the_ID();
+    $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
+
+    return sprintf(
+        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude %s" title="Hỏi Claude: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
+        esc_url( $urls['claude'] ),
+        esc_attr( $atts['class'] ),
+        esc_attr( $urls['title'] ),
+        bkit_get_ai_icon( 'claude' ),
+        esc_html( $atts['text'] )
+    );
+}
+add_shortcode( 'claude_button', 'bkit_claude_button_shortcode' );

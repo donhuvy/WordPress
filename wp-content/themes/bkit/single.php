@@ -16,20 +16,6 @@ get_header();
                             <span class="posted-on">Đăng ngày: <span class="post-date"><?php echo get_the_date('d/m/Y H:i:s'); ?></span> | Cập nhật: <span class="post-date"><?php echo get_the_modified_date('d/m/Y H:i:s'); ?></span></span>
                             <span class="author-meta"> | <?php the_author(); ?></span>
                         </div>
-
-                        <!-- Top Quick AI Ask Action Buttons -->
-                        <?php if ( function_exists( 'bkit_render_ai_action_buttons' ) ) : ?>
-                            <div class="bkit-post-quick-ai">
-                                <span class="bkit-quick-ai-label">Hỏi AI nhanh:</span>
-                                <?php echo bkit_render_ai_action_buttons( array(
-                                    'post_id'       => get_the_ID(),
-                                    'style'         => 'pills',
-                                    'chatgpt_text'  => 'ChatGPT',
-                                    'claude_text'   => 'Claude',
-                                    'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
-                                ) ); ?>
-                            </div>
-                        <?php endif; ?>
                     </header>
 
                     <div class="entry-content">

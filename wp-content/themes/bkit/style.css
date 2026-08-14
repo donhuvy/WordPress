@@ -919,6 +919,28 @@ select:focus {
     color: #ffffff !important;
 }
 
+/* Gemini Button Styling */
+.bkit-ai-gemini {
+    background-color: #1a73e8;
+    color: #ffffff !important;
+}
+
+.bkit-ai-gemini:hover {
+    background-color: #1557b0;
+    color: #ffffff !important;
+}
+
+/* Copilot Button Styling */
+.bkit-ai-copilot {
+    background-color: #0078d4;
+    color: #ffffff !important;
+}
+
+.bkit-ai-copilot:hover {
+    background-color: #005a9e;
+    color: #ffffff !important;
+}
+
 /* Pills Style */
 .bkit-ai-style-pills .bkit-ai-btn {
     padding: 6px 14px;

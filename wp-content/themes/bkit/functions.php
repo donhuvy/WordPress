@@ -467,7 +467,7 @@ function bkit_google_preferred_source_shortcode( $atts ) {
 add_shortcode( 'google_preferred_source', 'bkit_google_preferred_source_shortcode' );
 
 /* =========================================================================
- * AI ASSISTANT BUTTONS (ChatGPT, Claude, Gemini, Copilot) FOR POSTS & SIDE POSTS
+ * AI ASSISTANT BUTTONS (ChatGPT, Claude) FOR POSTS & SIDE POSTS
  * Inspired by modern documentation platforms like RustFS docs
  * ========================================================================= */
 
@@ -476,7 +476,7 @@ add_shortcode( 'google_preferred_source', 'bkit_google_preferred_source_shortcod
  *
  * @param int|WP_Post|null $post_id Post ID or WP_Post object.
  * @param string           $custom_prompt Optional prompt override.
- * @return array Array with 'chatgpt', 'claude', 'gemini', 'copilot', 'permalink', and 'prompt'
+ * @return array Array with 'chatgpt', 'claude', 'permalink', and 'prompt'
  */
 function bkit_get_ai_prompt_urls( $post_id = null, $custom_prompt = '' ) {
     $post = get_post( $post_id );
@@ -495,8 +495,6 @@ function bkit_get_ai_prompt_urls( $post_id = null, $custom_prompt = '' ) {
     return array(
         'chatgpt'   => 'https://chatgpt.com/?prompt=' . rawurlencode( $full_prompt ) . '&hints=search',
         'claude'    => 'https://claude.ai/new?q=' . rawurlencode( $full_prompt ),
-        'gemini'    => 'https://gemini.google.com/app/77a3900932bd8bb6?prompt=' . rawurlencode( $full_prompt ),
-        'copilot'   => 'https://copilot.microsoft.com/?q=' . rawurlencode( $full_prompt ),
         'permalink' => $permalink,
         'title'     => $title,
         'prompt'    => $full_prompt,
@@ -506,7 +504,7 @@ function bkit_get_ai_prompt_urls( $post_id = null, $custom_prompt = '' ) {
 /**
  * Return authentic SVG icon markup for AI services.
  *
- * @param string $service 'chatgpt', 'claude', 'gemini', or 'copilot'
+ * @param string $service 'chatgpt' or 'claude'
  * @return string SVG HTML
  */
 function bkit_get_ai_icon( $service ) {
@@ -517,19 +515,13 @@ function bkit_get_ai_icon( $service ) {
         case 'claude':
             return '<svg class="ai-icon ai-icon-claude" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 2.007a.9.9 0 0 0-.82.529l-3.238 7.37-3.239-7.37a.9.9 0 0 0-.82-.536.9.9 0 0 0-.82.536L4.01 12.398a.9.9 0 0 0 .17.986l6.764 7.683a.9.9 0 0 0 1.353 0l6.764-7.683a.9.9 0 0 0 .17-.986l-4.54-9.862a.9.9 0 0 0-.219-.529zm-5.47 3.328 2.05 4.665h-4.1zM6.16 12.443l3.226-7.008 2.158 4.908-4.24 4.814zm11.68 0-1.144 2.714-4.24-4.814 2.158-4.908zm-5.84 6.634-5.267-5.981h10.534z"/></svg>';
 
-        case 'gemini':
-            return '<svg class="ai-icon ai-icon-gemini" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 24C12 17.3726 6.6274 12 0 12C6.6274 12 12 6.6274 12 0C12 6.6274 17.3726 12 24 12C17.3726 12 12 17.3726 12 24Z"/></svg>';
-
-        case 'copilot':
-            return '<svg class="ai-icon ai-icon-copilot" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19.38 10.05a5.55 5.55 0 0 0-4.9-5.52A5.63 5.63 0 0 0 9 7.4a5.55 5.55 0 0 0-5.55 5.55c0 1.29.44 2.48 1.18 3.42A5.55 5.55 0 0 0 9 21.9a5.63 5.63 0 0 0 5.48-2.87 5.55 5.55 0 0 0 4.9-8.98zm-10.38 9.9a3.6 3.6 0 0 1-3.6-3.6 3.6 3.6 0 0 1 1.48-2.9 3.6 3.6 0 0 1 2.12-.7c1.99 0 3.6 1.61 3.6 3.6a3.6 3.6 0 0 1-3.6 3.6zm6-3.6a3.6 3.6 0 0 1-2.12.7 3.6 3.6 0 0 1-3.6-3.6c0-1.99 1.61-3.6 3.6-3.6a3.6 3.6 0 0 1 3.6 3.6 3.6 3.6 0 0 1-1.48 2.9z"/></svg>';
-
         default:
             return '';
     }
 }
 
 /**
- * Render ready-to-use AI action buttons (ChatGPT, Claude, Gemini, Copilot).
+ * Render ready-to-use AI action buttons (ChatGPT, Claude).
  *
  * @param array $args Options for rendering.
  * @return string HTML output.
@@ -540,16 +532,10 @@ function bkit_render_ai_action_buttons( $args = array() ) {
         'style'         => 'buttons', // 'buttons', 'compact', 'pills', 'cards', 'sidebar'
         'show_chatgpt'  => true,
         'show_claude'   => true,
-        'show_gemini'   => true,
-        'show_copilot'  => true,
         'chatgpt_text'  => 'ChatGPT',
         'claude_text'   => 'Claude',
-        'gemini_text'   => 'Gemini',
-        'copilot_text'  => 'Copilot',
         'chatgpt_sub'   => 'Hỏi đáp & phân tích nội dung',
         'claude_sub'    => 'Tóm tắt & nghiên cứu sâu',
-        'gemini_sub'    => 'Tra cứu & mở rộng thông tin',
-        'copilot_sub'   => 'Tìm kiếm & giải đáp thông minh',
         'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
         'class'         => '',
     );
@@ -586,32 +572,6 @@ function bkit_render_ai_action_buttons( $args = array() ) {
             $output .= '  <span class="bkit-ai-btn-arrow">&rarr;</span>';
             $output .= '</a>';
         }
-
-        if ( $args['show_gemini'] ) {
-            $output .= '<a href="' . esc_url( $urls['gemini'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="gemini" title="Mở bài viết này trong Google Gemini kèm câu hỏi">';
-            $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'gemini' ) . '</div>';
-            $output .= '  <div class="bkit-ai-btn-text">';
-            $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['gemini_text'] ) . '</span>';
-            if ( ! empty( $args['gemini_sub'] ) ) {
-                $output .= '    <span class="bkit-ai-btn-desc">' . esc_html( $args['gemini_sub'] ) . '</span>';
-            }
-            $output .= '  </div>';
-            $output .= '  <span class="bkit-ai-btn-arrow">&rarr;</span>';
-            $output .= '</a>';
-        }
-
-        if ( $args['show_copilot'] ) {
-            $output .= '<a href="' . esc_url( $urls['copilot'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="copilot" title="Mở bài viết này trong Microsoft Copilot kèm câu hỏi">';
-            $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'copilot' ) . '</div>';
-            $output .= '  <div class="bkit-ai-btn-text">';
-            $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['copilot_text'] ) . '</span>';
-            if ( ! empty( $args['copilot_sub'] ) ) {
-                $output .= '    <span class="bkit-ai-btn-desc">' . esc_html( $args['copilot_sub'] ) . '</span>';
-            }
-            $output .= '  </div>';
-            $output .= '  <span class="bkit-ai-btn-arrow">&rarr;</span>';
-            $output .= '</a>';
-        }
     } else {
         // Direct ready-to-use buttons (compact / pills / standard)
         if ( $args['show_chatgpt'] ) {
@@ -625,20 +585,6 @@ function bkit_render_ai_action_buttons( $args = array() ) {
             $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="claude" title="Hỏi Claude: ' . esc_attr( $urls['title'] ) . '">';
             $output .= '  ' . bkit_get_ai_icon( 'claude' );
             $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['claude_text'] ) . '</span>';
-            $output .= '</a>';
-        }
-
-        if ( $args['show_gemini'] ) {
-            $output .= '<a href="' . esc_url( $urls['gemini'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="gemini" title="Hỏi Gemini: ' . esc_attr( $urls['title'] ) . '">';
-            $output .= '  ' . bkit_get_ai_icon( 'gemini' );
-            $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['gemini_text'] ) . '</span>';
-            $output .= '</a>';
-        }
-
-        if ( $args['show_copilot'] ) {
-            $output .= '<a href="' . esc_url( $urls['copilot'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="copilot" title="Hỏi Copilot: ' . esc_attr( $urls['title'] ) . '">';
-            $output .= '  ' . bkit_get_ai_icon( 'copilot' );
-            $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['copilot_text'] ) . '</span>';
             $output .= '</a>';
         }
     }
@@ -660,7 +606,7 @@ function bkit_render_side_posts_sidebar( $current_post_id = 0, $limit = 5 ) {
 
     $html  = '<aside class="bkit-post-sidebar">';
     
-    // Khối 1: Hộp công cụ Hỏi AI trực tiếp cho bài viết hiện tại (ChatGPT, Claude, Gemini, Copilot)
+    // Khối 1: Hộp công cụ Hỏi AI trực tiếp cho bài viết hiện tại (ChatGPT, Claude)
     $html .= '<div class="bkit-sidebar-widget bkit-ai-widget">';
     $html .= '  <div class="bkit-widget-header">';
     $html .= '    <h3 class="bkit-widget-title">';
@@ -675,12 +621,8 @@ function bkit_render_side_posts_sidebar( $current_post_id = 0, $limit = 5 ) {
         'style'         => 'sidebar',
         'chatgpt_text'  => 'ChatGPT',
         'claude_text'   => 'Claude',
-        'gemini_text'   => 'Gemini',
-        'copilot_text'  => 'Copilot',
         'chatgpt_sub'   => 'Hỏi đáp & phân tích nội dung',
         'claude_sub'    => 'Tóm tắt & nghiên cứu sâu',
-        'gemini_sub'    => 'Tra cứu & mở rộng thông tin',
-        'copilot_sub'   => 'Tìm kiếm & giải đáp thông minh',
         'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
     ) );
 
@@ -753,12 +695,8 @@ function bkit_ai_ask_buttons_shortcode( $atts ) {
             'style'         => 'buttons',
             'chatgpt_text'  => 'ChatGPT',
             'claude_text'   => 'Claude',
-            'gemini_text'   => 'Gemini',
-            'copilot_text'  => 'Copilot',
             'chatgpt_sub'   => 'Hỏi đáp & phân tích',
             'claude_sub'    => 'Tóm tắt & mở rộng',
-            'gemini_sub'    => 'Tra cứu & mở rộng',
-            'copilot_sub'   => 'Tìm kiếm thông minh',
             'custom_prompt' => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
             'class'         => '',
         ),
@@ -836,69 +774,8 @@ function bkit_claude_button_shortcode( $atts ) {
 add_shortcode( 'claude_button', 'bkit_claude_button_shortcode' );
 
 /**
- * Shortcode: [gemini_button text="Gemini" prompt="..."]
- */
-function bkit_gemini_button_shortcode( $atts ) {
-    $atts = shortcode_atts(
-        array(
-            'post_id' => 0,
-            'text'    => 'Gemini',
-            'prompt'  => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
-            'class'   => '',
-        ),
-        $atts,
-        'gemini_button'
-    );
-
-    $post_id = ! empty( $atts['post_id'] ) ? $atts['post_id'] : get_the_ID();
-    $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
-
-    return sprintf(
-        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini %s" data-ai-prompt="%s" data-ai-service="gemini" title="Hỏi Gemini: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
-        esc_url( $urls['gemini'] ),
-        esc_attr( $atts['class'] ),
-        esc_attr( $urls['prompt'] ),
-        esc_attr( $urls['title'] ),
-        bkit_get_ai_icon( 'gemini' ),
-        esc_html( $atts['text'] )
-    );
-}
-add_shortcode( 'gemini_button', 'bkit_gemini_button_shortcode' );
-
-/**
- * Shortcode: [copilot_button text="Copilot" prompt="..."]
- */
-function bkit_copilot_button_shortcode( $atts ) {
-    $atts = shortcode_atts(
-        array(
-            'post_id' => 0,
-            'text'    => 'Copilot',
-            'prompt'  => 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.',
-            'class'   => '',
-        ),
-        $atts,
-        'copilot_button'
-    );
-
-    $post_id = ! empty( $atts['post_id'] ) ? $atts['post_id'] : get_the_ID();
-    $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
-
-    return sprintf(
-        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot %s" data-ai-prompt="%s" data-ai-service="copilot" title="Hỏi Copilot: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
-        esc_url( $urls['copilot'] ),
-        esc_attr( $atts['class'] ),
-        esc_attr( $urls['prompt'] ),
-        esc_attr( $urls['title'] ),
-        bkit_get_ai_icon( 'copilot' ),
-        esc_html( $atts['text'] )
-    );
-}
-add_shortcode( 'copilot_button', 'bkit_copilot_button_shortcode' );
-
-/**
  * AI Assistant Clipboard Copier & Toast Notification Script.
- * Ensures the prompt is copied to clipboard whenever any AI button is clicked,
- * providing instant Ctrl+V pasting into Gemini/Copilot/Claude/ChatGPT.
+ * Ensures the prompt is copied to clipboard whenever any AI button is clicked.
  */
 function bkit_ai_buttons_footer_script() {
     ?>
@@ -954,11 +831,7 @@ function bkit_ai_buttons_footer_script() {
             if (prompt) {
                 copyText(prompt).then(function() {
                     var sName = service.charAt(0).toUpperCase() + service.slice(1);
-                    if (service === 'gemini' || service === 'copilot') {
-                        showToast('Đã sao chép prompt! Nhấn Ctrl+V để dán vào ' + sName);
-                    } else {
-                        showToast('Đã mở ' + sName + ' & sao chép prompt vào bộ nhớ tạm');
-                    }
+                    showToast('Đã mở ' + sName + ' & sao chép prompt vào bộ nhớ tạm');
                 }).catch(function() {
                     // Ignore clipboard error
                 });

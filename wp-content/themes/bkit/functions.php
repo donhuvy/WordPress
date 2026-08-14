@@ -488,14 +488,14 @@ function bkit_get_ai_prompt_urls( $post_id = null, $custom_prompt = '' ) {
         $title     = get_the_title( $post );
     }
 
-    $prompt_suffix = ! empty( $custom_prompt ) ? $custom_prompt : 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.';
-    // 'Đọc' thay cho 'Read', kết thúc câu hỏi là 2 dòng trống (\n\n)
-    $full_prompt   = "Đọc {$permalink}, {$prompt_suffix}\n\n";
+    $prompt_suffix = ! empty( $custom_prompt ) ? trim( $custom_prompt ) : 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.';
+    // 'Đọc' thay cho 'Read', không còn 2 dòng trống ở cuối câu hỏi
+    $full_prompt   = "Đọc {$permalink}, {$prompt_suffix}";
 
     return array(
         'chatgpt'   => 'https://chatgpt.com/?prompt=' . rawurlencode( $full_prompt ) . '&hints=search',
         'claude'    => 'https://claude.ai/new?q=' . rawurlencode( $full_prompt ),
-        'gemini'    => 'https://gemini.google.com/app?prompt=' . rawurlencode( $full_prompt ),
+        'gemini'    => 'https://gemini.google.com/app/77a3900932bd8bb6?prompt=' . rawurlencode( $full_prompt ),
         'copilot'   => 'https://copilot.microsoft.com/?q=' . rawurlencode( $full_prompt ),
         'permalink' => $permalink,
         'title'     => $title,
@@ -562,7 +562,7 @@ function bkit_render_ai_action_buttons( $args = array() ) {
     if ( 'sidebar' === $args['style'] || 'cards' === $args['style'] ) {
         // Full interactive card style with subtext
         if ( $args['show_chatgpt'] ) {
-            $output .= '<a href="' . esc_url( $urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt" title="Mở bài viết này trong ChatGPT kèm câu hỏi">';
+            $output .= '<a href="' . esc_url( $urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="chatgpt" title="Mở bài viết này trong ChatGPT kèm câu hỏi">';
             $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'chatgpt' ) . '</div>';
             $output .= '  <div class="bkit-ai-btn-text">';
             $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['chatgpt_text'] ) . '</span>';
@@ -575,7 +575,7 @@ function bkit_render_ai_action_buttons( $args = array() ) {
         }
 
         if ( $args['show_claude'] ) {
-            $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" title="Mở bài viết này trong Claude kèm câu hỏi">';
+            $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="claude" title="Mở bài viết này trong Claude kèm câu hỏi">';
             $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'claude' ) . '</div>';
             $output .= '  <div class="bkit-ai-btn-text">';
             $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['claude_text'] ) . '</span>';
@@ -588,7 +588,7 @@ function bkit_render_ai_action_buttons( $args = array() ) {
         }
 
         if ( $args['show_gemini'] ) {
-            $output .= '<a href="' . esc_url( $urls['gemini'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini" title="Mở bài viết này trong Google Gemini kèm câu hỏi">';
+            $output .= '<a href="' . esc_url( $urls['gemini'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="gemini" title="Mở bài viết này trong Google Gemini kèm câu hỏi">';
             $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'gemini' ) . '</div>';
             $output .= '  <div class="bkit-ai-btn-text">';
             $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['gemini_text'] ) . '</span>';
@@ -601,7 +601,7 @@ function bkit_render_ai_action_buttons( $args = array() ) {
         }
 
         if ( $args['show_copilot'] ) {
-            $output .= '<a href="' . esc_url( $urls['copilot'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot" title="Mở bài viết này trong Microsoft Copilot kèm câu hỏi">';
+            $output .= '<a href="' . esc_url( $urls['copilot'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="copilot" title="Mở bài viết này trong Microsoft Copilot kèm câu hỏi">';
             $output .= '  <div class="bkit-ai-btn-icon">' . bkit_get_ai_icon( 'copilot' ) . '</div>';
             $output .= '  <div class="bkit-ai-btn-text">';
             $output .= '    <span class="bkit-ai-btn-title">' . esc_html( $args['copilot_text'] ) . '</span>';
@@ -615,28 +615,28 @@ function bkit_render_ai_action_buttons( $args = array() ) {
     } else {
         // Direct ready-to-use buttons (compact / pills / standard)
         if ( $args['show_chatgpt'] ) {
-            $output .= '<a href="' . esc_url( $urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt" title="Hỏi ChatGPT: ' . esc_attr( $urls['title'] ) . '">';
+            $output .= '<a href="' . esc_url( $urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="chatgpt" title="Hỏi ChatGPT: ' . esc_attr( $urls['title'] ) . '">';
             $output .= '  ' . bkit_get_ai_icon( 'chatgpt' );
             $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['chatgpt_text'] ) . '</span>';
             $output .= '</a>';
         }
 
         if ( $args['show_claude'] ) {
-            $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" title="Hỏi Claude: ' . esc_attr( $urls['title'] ) . '">';
+            $output .= '<a href="' . esc_url( $urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="claude" title="Hỏi Claude: ' . esc_attr( $urls['title'] ) . '">';
             $output .= '  ' . bkit_get_ai_icon( 'claude' );
             $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['claude_text'] ) . '</span>';
             $output .= '</a>';
         }
 
         if ( $args['show_gemini'] ) {
-            $output .= '<a href="' . esc_url( $urls['gemini'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini" title="Hỏi Gemini: ' . esc_attr( $urls['title'] ) . '">';
+            $output .= '<a href="' . esc_url( $urls['gemini'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="gemini" title="Hỏi Gemini: ' . esc_attr( $urls['title'] ) . '">';
             $output .= '  ' . bkit_get_ai_icon( 'gemini' );
             $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['gemini_text'] ) . '</span>';
             $output .= '</a>';
         }
 
         if ( $args['show_copilot'] ) {
-            $output .= '<a href="' . esc_url( $urls['copilot'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot" title="Hỏi Copilot: ' . esc_attr( $urls['title'] ) . '">';
+            $output .= '<a href="' . esc_url( $urls['copilot'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot" data-ai-prompt="' . esc_attr( $urls['prompt'] ) . '" data-ai-service="copilot" title="Hỏi Copilot: ' . esc_attr( $urls['title'] ) . '">';
             $output .= '  ' . bkit_get_ai_icon( 'copilot' );
             $output .= '  <span class="bkit-ai-btn-label">' . esc_html( $args['copilot_text'] ) . '</span>';
             $output .= '</a>';
@@ -794,9 +794,10 @@ function bkit_chatgpt_button_shortcode( $atts ) {
     $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
 
     return sprintf(
-        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt %s" title="Hỏi ChatGPT: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
+        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-chatgpt %s" data-ai-prompt="%s" data-ai-service="chatgpt" title="Hỏi ChatGPT: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
         esc_url( $urls['chatgpt'] ),
         esc_attr( $atts['class'] ),
+        esc_attr( $urls['prompt'] ),
         esc_attr( $urls['title'] ),
         bkit_get_ai_icon( 'chatgpt' ),
         esc_html( $atts['text'] )
@@ -823,9 +824,10 @@ function bkit_claude_button_shortcode( $atts ) {
     $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
 
     return sprintf(
-        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude %s" title="Hỏi Claude: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
+        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-claude %s" data-ai-prompt="%s" data-ai-service="claude" title="Hỏi Claude: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
         esc_url( $urls['claude'] ),
         esc_attr( $atts['class'] ),
+        esc_attr( $urls['prompt'] ),
         esc_attr( $urls['title'] ),
         bkit_get_ai_icon( 'claude' ),
         esc_html( $atts['text'] )
@@ -852,9 +854,10 @@ function bkit_gemini_button_shortcode( $atts ) {
     $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
 
     return sprintf(
-        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini %s" title="Hỏi Gemini: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
+        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-gemini %s" data-ai-prompt="%s" data-ai-service="gemini" title="Hỏi Gemini: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
         esc_url( $urls['gemini'] ),
         esc_attr( $atts['class'] ),
+        esc_attr( $urls['prompt'] ),
         esc_attr( $urls['title'] ),
         bkit_get_ai_icon( 'gemini' ),
         esc_html( $atts['text'] )
@@ -881,13 +884,89 @@ function bkit_copilot_button_shortcode( $atts ) {
     $urls    = bkit_get_ai_prompt_urls( $post_id, $atts['prompt'] );
 
     return sprintf(
-        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot %s" title="Hỏi Copilot: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
+        '<a href="%s" target="_blank" rel="noopener noreferrer" class="bkit-ai-btn bkit-ai-copilot %s" data-ai-prompt="%s" data-ai-service="copilot" title="Hỏi Copilot: %s">%s <span class="bkit-ai-btn-label">%s</span></a>',
         esc_url( $urls['copilot'] ),
         esc_attr( $atts['class'] ),
+        esc_attr( $urls['prompt'] ),
         esc_attr( $urls['title'] ),
         bkit_get_ai_icon( 'copilot' ),
         esc_html( $atts['text'] )
     );
 }
 add_shortcode( 'copilot_button', 'bkit_copilot_button_shortcode' );
+
+/**
+ * AI Assistant Clipboard Copier & Toast Notification Script.
+ * Ensures the prompt is copied to clipboard whenever any AI button is clicked,
+ * providing instant Ctrl+V pasting into Gemini/Copilot/Claude/ChatGPT.
+ */
+function bkit_ai_buttons_footer_script() {
+    ?>
+    <div id="bkit-ai-toast" class="bkit-ai-toast" aria-live="polite">
+        <span class="bkit-toast-icon">📋</span>
+        <span class="bkit-toast-msg"></span>
+    </div>
+    <script>
+    (function() {
+        var toast = document.getElementById('bkit-ai-toast');
+        var toastTimer = null;
+
+        function showToast(msg) {
+            if (!toast) return;
+            var msgEl = toast.querySelector('.bkit-toast-msg');
+            if (msgEl) msgEl.textContent = msg;
+            toast.classList.add('bkit-toast-visible');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(function() {
+                toast.classList.remove('bkit-toast-visible');
+            }, 3500);
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text);
+            }
+            return new Promise(function(resolve, reject) {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                ta.style.top = '-9999px';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                try {
+                    document.execCommand('copy') ? resolve() : reject();
+                } catch (e) {
+                    reject(e);
+                } finally {
+                    ta.remove();
+                }
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.bkit-ai-btn');
+            if (!btn) return;
+
+            var prompt = btn.getAttribute('data-ai-prompt');
+            var service = btn.getAttribute('data-ai-service') || 'AI';
+            if (prompt) {
+                copyText(prompt).then(function() {
+                    var sName = service.charAt(0).toUpperCase() + service.slice(1);
+                    if (service === 'gemini' || service === 'copilot') {
+                        showToast('Đã sao chép prompt! Nhấn Ctrl+V để dán vào ' + sName);
+                    } else {
+                        showToast('Đã mở ' + sName + ' & sao chép prompt vào bộ nhớ tạm');
+                    }
+                }).catch(function() {
+                    // Ignore clipboard error
+                });
+            }
+        });
+    })();
+    </script>
+    <?php
+}
+add_action( 'wp_footer', 'bkit_ai_buttons_footer_script' );
 

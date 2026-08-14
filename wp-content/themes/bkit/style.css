@@ -1218,3 +1218,41 @@ select:focus {
         position: static;
     }
 }
+
+/* AI Prompt Toast Notification */
+.bkit-ai-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999999;
+    background: #000000;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 2px solid #ffffff;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+    font-size: 14px !important;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    max-width: calc(100vw - 48px);
+}
+
+.bkit-ai-toast.bkit-toast-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bkit-ai-toast .bkit-toast-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.bkit-ai-toast .bkit-toast-msg {
+    line-height: 1.3 !important;
+}

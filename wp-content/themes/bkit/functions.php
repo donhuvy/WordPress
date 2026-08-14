@@ -651,7 +651,6 @@ function bkit_render_side_posts_sidebar( $current_post_id = 0, $limit = 5 ) {
             $permalink = get_permalink();
             $title     = get_the_title();
             $date      = get_the_date( 'd/m/Y' );
-            $post_urls = bkit_get_ai_prompt_urls( $post_id, 'Tôi muốn hỏi câu hỏi liên quan đến chủ đề này.' );
 
             $html .= '<li class="bkit-side-post-item">';
             
@@ -669,10 +668,6 @@ function bkit_render_side_posts_sidebar( $current_post_id = 0, $limit = 5 ) {
             $html .= '  </h4>';
             $html .= '  <div class="bkit-side-post-meta">';
             $html .= '    <span class="bkit-side-post-date">' . esc_html( $date ) . '</span>';
-            $html .= '    <div class="bkit-side-post-ai-mini">';
-            $html .= '      <a href="' . esc_url( $post_urls['chatgpt'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-mini-btn bkit-ai-mini-chatgpt" title="Hỏi ChatGPT về bài này">' . bkit_get_ai_icon( 'chatgpt' ) . '</a>';
-            $html .= '      <a href="' . esc_url( $post_urls['claude'] ) . '" target="_blank" rel="noopener noreferrer" class="bkit-ai-mini-btn bkit-ai-mini-claude" title="Hỏi Claude về bài này">' . bkit_get_ai_icon( 'claude' ) . '</a>';
-            $html .= '    </div>';
             $html .= '  </div>';
             $html .= '</div>';
 
